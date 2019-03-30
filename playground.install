@@ -1,0 +1,36 @@
+lib: [
+  "_build/install/default/lib/playground/META" {"META"}
+  "_build/install/default/lib/playground/dune-package" {"dune-package"}
+  "_build/install/default/lib/playground/lib/PlaygroundLib.a" {"lib/PlaygroundLib.a"}
+  "_build/install/default/lib/playground/lib/PlaygroundLib.cma" {"lib/PlaygroundLib.cma"}
+  "_build/install/default/lib/playground/lib/PlaygroundLib.cmi" {"lib/PlaygroundLib.cmi"}
+  "_build/install/default/lib/playground/lib/PlaygroundLib.cmt" {"lib/PlaygroundLib.cmt"}
+  "_build/install/default/lib/playground/lib/PlaygroundLib.cmx" {"lib/PlaygroundLib.cmx"}
+  "_build/install/default/lib/playground/lib/PlaygroundLib.cmxa" {"lib/PlaygroundLib.cmxa"}
+  "_build/install/default/lib/playground/lib/PlaygroundLib.cmxs" {"lib/PlaygroundLib.cmxs"}
+  "_build/install/default/lib/playground/lib/PlaygroundLib.re" {"lib/PlaygroundLib.re"}
+  "_build/install/default/lib/playground/lib/Types.re" {"lib/Types.re"}
+  "_build/install/default/lib/playground/lib/Worker.re" {"lib/Worker.re"}
+  "_build/install/default/lib/playground/lib/playgroundLib__.cmi" {"lib/playgroundLib__.cmi"}
+  "_build/install/default/lib/playground/lib/playgroundLib__.cmt" {"lib/playgroundLib__.cmt"}
+  "_build/install/default/lib/playground/lib/playgroundLib__.cmx" {"lib/playgroundLib__.cmx"}
+  "_build/install/default/lib/playground/lib/playgroundLib__.ml" {"lib/playgroundLib__.ml"}
+  "_build/install/default/lib/playground/lib/playgroundLib__Types.cmi" {"lib/playgroundLib__Types.cmi"}
+  "_build/install/default/lib/playground/lib/playgroundLib__Types.cmt" {"lib/playgroundLib__Types.cmt"}
+  "_build/install/default/lib/playground/lib/playgroundLib__Types.cmx" {"lib/playgroundLib__Types.cmx"}
+  "_build/install/default/lib/playground/lib/playgroundLib__Worker.cmi" {"lib/playgroundLib__Worker.cmi"}
+  "_build/install/default/lib/playground/lib/playgroundLib__Worker.cmt" {"lib/playgroundLib__Worker.cmt"}
+  "_build/install/default/lib/playground/lib/playgroundLib__Worker.cmx" {"lib/playgroundLib__Worker.cmx"}
+  "_build/install/default/lib/playground/opam" {"opam"}
+]
+bin: [
+  "_build/install/default/bin/Playground.js"
+  "_build/install/default/bin/Renderer.bc.js"
+  "_build/install/default/bin/Renderer.exe" {"Renderer.exe"}
+  "_build/install/default/bin/gl-matrix-min.js"
+  "_build/install/default/bin/playground.html"
+  "_build/install/default/bin/worker.js"
+]
+doc: [
+  "_build/install/default/doc/playground/README.md"
+]
