@@ -7,7 +7,7 @@ let path = require("path");
 
 let playgroundRoot = __dirname
 let playgroundSources = path.join(playgroundRoot, "src");
-let reveryRoot = path.join(playgroundRoot, "..");
+// let creveryRoot = path.join(playgroundRoot, "..");
 let playgroundBuild = path.join(playgroundRoot, "_playground");
 
 let nodeModulesSrc = path.join(playgroundRoot, "node_modules", "monaco-editor");
@@ -16,7 +16,7 @@ let nodeModulesDest = path.join(playgroundBuild, "monaco-editor");
 let playgroundExampleSources = path.join(playgroundBuild, "sources");
 let playgroundExampleHost = path.join(playgroundBuild, "host");
 
-let reveryExampleSources = path.join(reveryRoot, "examples");
+// let reveryExampleSources = path.join(reveryRoot, "examples");
 
 let getEsyPath = () => {
     let result
@@ -42,14 +42,14 @@ let getCommit = () => {
     return result.toString("utf8").trim();
 }
 
-let getVersion = () => {
-    let packageJson = fs.readFileSync(path.join(reveryRoot, "package.json")).toString("utf8");
-    return JSON.parse(packageJson).version;
-}
+// let getVersion = () => {
+//     let packageJson = fs.readFileSync(path.join(reveryRoot, "package.json")).toString("utf8");
+//     return JSON.parse(packageJson).version;
+// }
 
 let esyPath = getEsyPath();
 let commitId = getCommit();
-let version = getVersion();
+let version = "XXXXXXX";
 console.log("Esy path: " + esyPath);
 console.log("Commit id: " + commitId);
 console.log("Version: " + version);
@@ -71,9 +71,9 @@ console.log(`Copying sources from ${playgroundSources} to ${playgroundBuild}...`
 fs.copySync(playgroundSources, playgroundBuild);
 console.log("Sources copied.");
 
-console.log(`Copying examples from ${reveryExampleSources} to ${playgroundExampleSources}...`);
-fs.copySync(reveryExampleSources, playgroundExampleSources);
-console.log("Examples copied.");
+// console.log(`Copying examples from ${reveryExampleSources} to ${playgroundExampleSources}...`);
+// fs.copySync(reveryExampleSources, playgroundExampleSources);
+// console.log("Examples copied.");
 
 console.log("Copying artifacts...");
 // Remove destination to prevent a 'Source and destination must not be the same' error when re-building

@@ -30,7 +30,8 @@
     "@opam/js_of_ocaml-ppx": "link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
     "@opam/js_of_ocaml-toplevel": "link:../../js_of_ocaml/js_of_ocaml-toplevel.opam",
     "@brisk/brisk-reconciler": "github:briskml/brisk-reconciler#daa00be",
-    "revery": "link:../package.json"
+    "revery": "link:../revery",
+    "reason-fontkit": "link:../reason-fontkit"
   },
   "peerDependencies": {
     "ocaml": "^4.7.0"

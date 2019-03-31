@@ -2,3 +2,5 @@ _build/
 host/
 sources/
 node_modules/
+_esy/
+_playground/

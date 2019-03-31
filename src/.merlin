@@ -23,21 +23,21 @@ B C:/Users/bryphe/.esy/3_/i/opam__s__uchar-opam__c__0.0.2-73a41a0c/lib\uchar
 B C:/Users/bryphe/.esy/3_/i/opam__s__yojson-opam__c__1.7.0-4e5330d1/lib\yojson
 B C:/Users/bryphe/.esy/3_/i/reason_native__s__console-0.0.3-eb93ab8f/lib\console\lib
 B C:/Users/bryphe/.esy/3_/i/rebez-979b45de/lib\rebez\lib
-B D:/revery/playground/_esy/default/store/i/opam__s__js__of__ocaml-ee03b290/lib\js_of_ocaml
-B D:/revery/playground/_esy/default/store/i/opam__s__js__of__ocaml_compiler-58916fc9/lib\js_of_ocaml-compiler
-B D:/revery/playground/_esy/default/store/i/opam__s__js__of__ocaml_toplevel-134c2460/lib\js_of_ocaml-toplevel
-B D:/revery/playground/_esy/default/store/i/reason_fontkit-2.4.0-2642ee3b/lib\fontkit
-B D:/revery/playground/_esy/default/store/i/reason_gl_matrix-0.9.9304-3c17296b/lib\reglm
-B D:/revery/playground/_esy/default/store/i/reason_glfw-3.2.1024-7a7e686c/lib\reglfw
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery_Core
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery_Draw
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery_Geometry
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery_Math
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery_Native
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery_Shaders
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery_UI
-B D:/revery/playground/_esy/default/store/i/revery-b6ceb2d0/lib\Revery_UI_Components
+B D:/revery-playground/_esy/default/store/i/opam__s__js__of__ocaml-ee03b290/lib\js_of_ocaml
+B D:/revery-playground/_esy/default/store/i/opam__s__js__of__ocaml_compiler-58916fc9/lib\js_of_ocaml-compiler
+B D:/revery-playground/_esy/default/store/i/opam__s__js__of__ocaml_toplevel-134c2460/lib\js_of_ocaml-toplevel
+B D:/revery-playground/_esy/default/store/i/reason_fontkit-4337c667/lib\fontkit
+B D:/revery-playground/_esy/default/store/i/reason_gl_matrix-0.9.9304-3c17296b/lib\reglm
+B D:/revery-playground/_esy/default/store/i/reason_glfw-3.2.1024-7a7e686c/lib\reglfw
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery_Core
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery_Draw
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery_Geometry
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery_Math
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery_Native
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery_Shaders
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery_UI
+B D:/revery-playground/_esy/default/store/i/revery-68c55137/lib\Revery_UI_Components
 B ../_build/default/src/.Playground.eobjs/byte
 B ../_build/default/src/.Renderer.eobjs/byte
 B ../_build/default/src/lib/.PlaygroundLib.objs/byte
@@ -65,12 +65,12 @@ S C:/Users/bryphe/.esy/3_/i/opam__s__uchar-opam__c__0.0.2-73a41a0c/lib\uchar
 S C:/Users/bryphe/.esy/3_/i/opam__s__yojson-opam__c__1.7.0-4e5330d1/lib\yojson
 S C:/Users/bryphe/.esy/3_/i/reason_native__s__console-0.0.3-eb93ab8f/lib\console\lib
 S C:/Users/bryphe/.esy/3_/i/rebez-979b45de/lib\rebez\lib
-S D:/revery/playground/_esy/default/store/i/opam__s__js__of__ocaml-ee03b290/lib\js_of_ocaml
-S D:/revery/playground/_esy/default/store/i/opam__s__js__of__ocaml_compiler-58916fc9/lib\js_of_ocaml-compiler
-S D:/revery/playground/_esy/default/store/i/opam__s__js__of__ocaml_toplevel-134c2460/lib\js_of_ocaml-toplevel
-S D:/revery/playground/_esy/default/store/i/reason_fontkit-2.4.0-2642ee3b/lib\fontkit
-S D:/revery/playground/_esy/default/store/i/reason_gl_matrix-0.9.9304-3c17296b/lib\reglm
-S D:/revery/playground/_esy/default/store/i/reason_glfw-3.2.1024-7a7e686c/lib\reglfw
+S D:/revery-playground/_esy/default/store/i/opam__s__js__of__ocaml-ee03b290/lib\js_of_ocaml
+S D:/revery-playground/_esy/default/store/i/opam__s__js__of__ocaml_compiler-58916fc9/lib\js_of_ocaml-compiler
+S D:/revery-playground/_esy/default/store/i/opam__s__js__of__ocaml_toplevel-134c2460/lib\js_of_ocaml-toplevel
+S D:/revery-playground/_esy/default/store/i/reason_gl_matrix-0.9.9304-3c17296b/lib\reglm
+S D:/revery-playground/_esy/default/store/i/reason_glfw-3.2.1024-7a7e686c/lib\reglfw
+S D:\reason-fontkit\src
 S D:\revery\src
 S D:\revery\src/Core
 S D:\revery\src/Draw
@@ -82,5 +82,5 @@ S D:\revery\src/UI
 S D:\revery\src/UI_Components
 S .
 S lib
-FLG -ppx "D:\revery\playground\_build/default/.ppx/3edf09989a28fce237f8b735bd39446a/ppx.exe --as-ppx"
+FLG -ppx "D:\revery-playground\_build/default/.ppx/3edf09989a28fce237f8b735bd39446a/ppx.exe --as-ppx"
 FLG -w -40 -w -40 -safe-string -rectypes
