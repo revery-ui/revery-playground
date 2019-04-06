@@ -2,9 +2,10 @@
 (executable
  (name Renderer)
  (modules Renderer)
+ (preprocess (pps js_of_ocaml-ppx))
  (public_name Renderer)
  (libraries 
-  js_of_ocaml playground.lib Revery flex)
+  js_of_ocaml playground.lib Revery)
  )
 
 (executable
@@ -20,7 +21,7 @@
     (rule
      (targets export.txt)
      (deps Playground.bc)
-     (action (run jsoo_listunits -o %{targets} stdlib bigarray Revery_Core Revery_Draw Revery_Native Revery_UI Revery_UI_Components Revery playground.lib)))
+     (action (run jsoo_listunits -o %{targets} stdlib bigarray brisk-reconciler reglm Revery_Core Revery_Draw Revery_Math Revery_Native Revery_UI Revery_UI_Components Revery playground.lib)))
 
     (rule
      (targets Playground.js)
@@ -51,4 +52,4 @@
 (install
     (section bin)
     (package playground)
-    (files playground.html gl-matrix-min.js Renderer.bc.js Playground.js worker.js))
+    (files revery-logo-only.png index.css Roboto-Regular.ttf FontAwesome5FreeSolid.otf playground.html gl-matrix-min.js Renderer.bc.js Playground.js worker.js))

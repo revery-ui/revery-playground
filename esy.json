@@ -7,6 +7,9 @@
   "scripts": {
   },
   "homepage": "https://github.com/bryphe/revery#readme",
+  "scripts": {
+    "format": "esy dune build @fmt --auto-promote"
+  },
   "esy": {
     "buildsInSource": "_build",
     "build": ["dune build -p playground -j4" ]
@@ -30,8 +33,8 @@
     "@opam/js_of_ocaml-ppx": "link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
     "@opam/js_of_ocaml-toplevel": "link:../../js_of_ocaml/js_of_ocaml-toplevel.opam",
     "@brisk/brisk-reconciler": "github:briskml/brisk-reconciler#daa00be",
-    "revery": "link:../revery",
-    "reason-fontkit": "link:../reason-fontkit"
+    "reason-fontkit": "link:../../reason-fontkit",
+    "revery": "github:revery-ui/revery#43890d3fe2ba27272581ef1a4d7c79ba0da9f76e"
   },
   "peerDependencies": {
     "ocaml": "^4.7.0"

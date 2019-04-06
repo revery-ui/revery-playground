@@ -1,28 +1,51 @@
-/* open Revery; */
-/* ignore(Revery.App.start); */
-
 open Js_of_ocaml;
 open Js_of_ocaml_toplevel;
 
-let execute: Js.t(Js.js_string) => Js.t(Js.js_string) = code => {
-  let code = Js.to_string(code);
-  let buffer = Buffer.create(100);
-  let formatter = Format.formatter_of_buffer(buffer);
-  JsooTop.execute(true, formatter, code);
-  let result = Buffer.contents(buffer)
-  Js.string(result);
-};
+open Revery;
+open Revery.UI;
+
+open Js_of_ocaml;
+
+open PlaygroundLib.Types;
+         
+let stderr_buffer = Buffer.create(100);
+let stdout_buffer = Buffer.create(100);
+
+Sys_js.set_channel_flusher(stdout, Buffer.add_string(stdout_buffer));
+Sys_js.set_channel_flusher(stderr, Buffer.add_string(stderr_buffer));
+
+let execute: Js.t(Js.js_string) => Js.t(Js.js_string) =
+  code => {
+    let code = Js.to_string(code);
+    let buffer = Buffer.create(100);
+    let formatter = Format.formatter_of_buffer(buffer);
+    JsooTop.execute(true, formatter, code);
+    let result = Buffer.contents(buffer);
+    Js.string(result);
+  };
 
 let postfix = "\nPlaygroundLib.Worker.setRenderFunction(render);";
 
-let execute2: Js.t(Js.js_string) => Js.t(Js.js_string) = code => {
-  let code = Js.to_string(code) ++ postfix;
-  let buffer = Buffer.create(100);
-  let formatter = Format.formatter_of_buffer(buffer);
-  JsooTop.execute(true, formatter, code);
-  let result = Buffer.contents(buffer)
-  Js.string(result);
-};
+let execute2 =
+  code => {
+    let code = Js.to_string(code) ++ postfix;
+    let buffer = Buffer.create(100);
+    let formatter = Format.formatter_of_buffer(buffer);
+    JsooTop.execute(true, formatter, code);
+         
+    let result = Buffer.contents(buffer);
+    let stderr_result = Buffer.contents(stderr_buffer);
+    let stdout_result = Buffer.contents(stdout_buffer);
+
+    Buffer.clear(stderr_buffer);
+    Buffer.clear(stdout_buffer);
+
+    [%js {
+      val result = Js.string(result);
+      val stderr = Js.string(stderr_result);
+      val stdout = Js.string(stdout_result)
+    }]
+  };
 
 let reasonSyntax = () => {
   open Reason_toolchain.From_current;
@@ -57,21 +80,25 @@ let reasonSyntax = () => {
     wrap(copy_out_phrase, Reason_oprint.print_out_phrase);
 };
 
+let log = v => print_endline("[Worker] " ++ v);
+
 let _ = {
   reasonSyntax();
   JsooTop.initialize();
+
+  PlaygroundLib.Worker.start(execute2);
+
+  /* Worker.set_onmessage((updates: PlaygroundLib.Protocol.ToWorker.t) => { */
+  /*     log ("WORKER: GOT UPDATES"); */
+  /*     switch (updates) { */
+  /*     | SourceCodeUpdated(v) => { */
+  /*         log ("got source code update"); */
+  /*         let _  = execute2(v); */
+  /*     } */
+  /*   | _ => log("unknown update"); */
+  /*   } */
+  /* }); */
+
+  log("Initialized");
   /* PlaygroundLib.startPlayground(); */
 };
-
-/* let startRenderer = PlaygroundLib.Renderer.start; */
-/* let updateRenderer = PlaygroundLib.Renderer.update; */
-/* let startWorker = PlaygroundLib.Worker.start; */
-
-let () = Js.export_all(
-  [%js {
-    val execute = execute;
-    val execute2 = execute2;
-    /* val startRenderer = startRenderer; */
-    /* val updateRenderer = updateRenderer; */
-  }]
-);

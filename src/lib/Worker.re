@@ -5,97 +5,202 @@ open Js_of_ocaml;
 
 open Types;
 
-let derp = () => print_endline("Hello, world!");
+let log = v => ();
+/* let log = v => print_endline("[Worker] " ++ v); */
 
-let renderFunction = ref(() => <View style={Style.[backgroundColor(Colors.red), width(100), height(100)]} />);
-
-let rootNode = (new viewNode)();
-
-let container = ref(Container.create(rootNode));
+let renderFunction =
+  ref(() =>
+    <View
+      style=Style.[backgroundColor(Colors.red), width(100), height(100)]
+    />
+  );
 
 let _pendingUpdates: ref(list(updates)) = ref([]);
 let clearUpdates = () => _pendingUpdates := [];
 let queueUpdate = (update: updates) => {
-   _pendingUpdates := [update, ..._pendingUpdates^]; 
+  _pendingUpdates := [update, ..._pendingUpdates^];
 };
 
-queueUpdate(NewNode(rootNode#getInternalId(), View));
-queueUpdate(RootNode(rootNode#getInternalId()));
-
 class proxyViewNode (()) = {
-    as _this;
-    inherit (class viewNode)() as super;
+  as _this;
+  inherit (class viewNode)() as super;
+  pub! setStyle = style => {
+    queueUpdate(SetStyle(super#getInternalId(), style));
+  };
+  pub! addChild = child => {
+    queueUpdate(AddChild(super#getInternalId(), child#getInternalId()));
+    super#addChild(child);
+  };
+  pub! removeChild = child => {
+    queueUpdate(RemoveChild(super#getInternalId(), child#getInternalId()));
+    super#removeChild(child);
+  };
+  initializer {
+    queueUpdate(NewNode(super#getInternalId(), View));
+  };
+};
 
-    pub setStyle = style => {
-      queueUpdate(SetStyle(super#getInternalId(), style));
-    };
+class proxyTextNode (text) = {
+  as _this;
+  inherit (class textNode)(text) as super;
+  pub! setStyle = style => {
+    queueUpdate(SetStyle(super#getInternalId(), style));
+  };
+  pub! addChild = child => {
+    queueUpdate(AddChild(super#getInternalId(), child#getInternalId()));
+    super#addChild(child);
+  };
+  pub! removeChild = child => {
+    queueUpdate(RemoveChild(super#getInternalId(), child#getInternalId()));
+    super#removeChild(child);
+  };
+  pub! setText = text => {
+    queueUpdate(SetText(super#getInternalId(), text));
+  };
+  initializer {
+    queueUpdate(NewNode(super#getInternalId(), Text));
+    queueUpdate(SetText(super#getInternalId(), text));
+  };
+};
 
-    pub addChild = (child) => {
-        queueUpdate(AddChild(super#getInternalId(), child#getInternalId()));   
-        super#addChild(child);
-    };
+class proxyImageNode (src) = {
+  as _this;
+  inherit (class imageNode)(src) as super;
+  pub! setStyle = style => {
+    queueUpdate(SetStyle(super#getInternalId(), style));
+  };
+  pub! addChild = child => {
+    print_endline("WORKER: ADD TEXT CHILD");
+    queueUpdate(AddChild(super#getInternalId(), child#getInternalId()));
+    super#addChild(child);
+  };
+  pub! removeChild = child => {
+    print_endline("WORKER: REMOVE TEXT CHILD");
+    queueUpdate(RemoveChild(super#getInternalId(), child#getInternalId()));
+    super#removeChild(child);
+  };
+  initializer {
+    print_endline("IMAGE: Initial src: " ++ src);
+    queueUpdate(NewNode(super#getInternalId(), Image));
+    queueUpdate(SetImageSrc(super#getInternalId(), src));
+  };
+};
 
-    pub removeChild = (child) => {
-        queueUpdate(RemoveChild(super#getInternalId(), child#getInternalId()));   
-        super#removeChild(child);
-    };
-    
-    initializer {
-        queueUpdate(NewNode(super#getInternalId(), View));
-    }
-}
+let rootNode = (new proxyViewNode)();
+queueUpdate(RootNode(rootNode#getInternalId()));
+let container = ref(Container.create(rootNode));
+
+let idToNode: Hashtbl.t(int, viewNode) = Hashtbl.create(100);
+
+let registerNode = node => {
+  Hashtbl.add(idToNode, node#getInternalId(), Obj.magic(node));
+};
+registerNode(rootNode);
+
+let getNodeById = id => {
+  switch (Hashtbl.find_opt(idToNode, id)) {
+  | Some(v) => v
+  | None => failwith("Unable to find node with id: " ++ string_of_int(id))
+  };
+};
 
 let proxyNodeFactory: nodeFactory = {
-   createViewNode: () => (new proxyViewNode)(), 
+  createViewNode: () => {
+    let ret = (new proxyViewNode)();
+    registerNode(ret);
+    ret;
+  },
+  createTextNode: text => {
+    let ret = (new proxyTextNode)(text);
+    registerNode(ret);
+    ret;
+  },
+  createImageNode: src => {
+    let ret = (new proxyImageNode)(src);
+    registerNode(ret);
+    ret;
+  },
 };
 
 setNodeFactory(proxyNodeFactory);
 
-
-let setRenderFunction = (fn) => {
-    /* print_endline ("setting render function4"); */
-    /* let testVal = fn(); */
-    /* let marshalledData = Marshal.to_string(testVal, [Marshal.Closures]); */
-    /* print_endline ("Marshalled data: " ++ marshalledData); */
-    /* let unmarshalledData = Obj.magic(Marshal.from_string(marshalledData)); */
-
-    renderFunction := fn;
-
-    container := Container.update(container^, fn());
-    print_endline ("Set render function - childCount: " ++ string_of_int(List.length(rootNode#getChildren())));
-
-    print_endline("Trying to post...");
-    /* let _derp = Js.string("hi"); */
-    let updatesToSend = _pendingUpdates^ |> List.rev;
-    Worker.post_message(updatesToSend);
-    clearUpdates();
-    print_endline("Posted!");
-
-    /* print_endline ("Trying to marshal..."); */
-    /* let updates = Marshal.to_string(_pendingUpdates^, []); */
-    /* print_endline ("Marshalled value: " ++ updates); */
+let sendMessage = msg => {
+  Worker.post_message(msg);
 };
 
-/* let init = app => { */
 
-/*     let win = */ 
-/*         App.createWindow(app, "Welcome to Revery", ~createOptions={ */
-/*             ...Window.defaultCreateOptions, */
-/*             maximized: true, */
-/*         }); */
+let render = () => {
+
+  log(
+    "before render function - childCount: "
+    ++ string_of_int(List.length(rootNode#getChildren())),
+  );
+  container := Container.update(container^, renderFunction^());
+  log(
+    "Set render function - childCount: "
+    ++ string_of_int(List.length(rootNode#getChildren())),
+  );
+
+  log("Trying to post...");
+  /* let _derp = Js.string("hi"); */
+  let updatesToSend = _pendingUpdates^ |> List.rev;
+  /* Types.showAll(updatesToSend); */
+  sendMessage(Protocol.ToRenderer.Updates(updatesToSend));
+  /* Worker.post_message(updatesToSend); */
+  log("Posted!" ++ string_of_int(List.length(updatesToSend)));
+  clearUpdates();
+    
+}
+
+let onStale = () => {
+    render();
+};
+
+let _ = Revery_Core.Event.subscribe(React.onStale, onStale);
+let setRenderFunction = fn => {
+  renderFunction := fn;
+  render();
+};
 
 
-/*     let render = () => { */
-/*         print_endline ("rendering"); */
-/*         (renderFunction^)(); */
-/*     }; */
+let start = exec => {
 
-/*     Window.maximize(win); */
+  let mouseCursor = Revery_UI.Mouse.Cursor.make();
 
-/*     UI.start(win, render); */
-/*     Window.setShouldRenderCallback(win, () => true); */
-/* }; */
+  Worker.set_onmessage((updates: Protocol.ToWorker.t) => {
+    switch (updates) {
+    | SourceCodeUpdated(v) =>
+      log("got source code update");      
+      sendMessage(Protocol.ToRenderer.Compiling);
+      let output = Obj.magic(exec(v));
+      sendMessage(Protocol.ToRenderer.Output(output));
+      sendMessage(Protocol.ToRenderer.Ready);
+    | Measurements(v) =>
+      log("applying measurements");
 
-/* let startPlayground = () => { */
-/*     App.start(init); */
-/* }; */
+      let f = (measurement: Protocol.ToWorker.nodeMeasurement) => {
+        let nodeId = measurement.id;
+        log("Applying measurement for node: " ++ string_of_int(nodeId));
+        let measurements = measurement.dimensions;
+
+        let node = getNodeById(nodeId);
+        log("forcing measurement");
+        node#forceMeasurements(measurements);
+        log("forcing measurement done");
+      };
+
+      List.iter(f, v);
+      rootNode#recalculate();
+      rootNode#flushCallbacks();
+
+      log("measurements applied");
+    | MouseEvent(me) => Revery_UI.Mouse.dispatch(mouseCursor, me, rootNode);
+    | KeyboardEvent(ke) => Revery_UI.Keyboard.dispatch(ke);
+    | _ => log("unknown update")
+    };
+  });
+
+  log("Initialized");
+  sendMessage(Protocol.ToRenderer.Ready);
+  /* PlaygroundLib.startPlayground(); */
+};

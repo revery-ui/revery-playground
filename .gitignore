@@ -1,6 +1,7 @@
 _build/
 host/
 sources/
-node_modules/
-_esy/
 _playground/
+_esy/
+node_modules/
+*.install
