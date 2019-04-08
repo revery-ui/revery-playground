@@ -5,3 +5,4 @@ _playground/
 _esy/
 node_modules/
 *.install
+**/.merlin
