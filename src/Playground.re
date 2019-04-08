@@ -82,7 +82,7 @@ let reasonSyntax = () => {
 
 let log = v => print_endline("[Worker] " ++ v);
 
-let _ = {
+let start = () => {
   reasonSyntax();
   JsooTop.initialize();
 
@@ -100,5 +100,14 @@ let _ = {
   /* }); */
 
   log("Initialized");
+
+  let f = (t) => {
+      Revery.Tick.pump();
+      /* log("WORKER TICK2: " ++ string_of_float(t)); */
+  };
+  let ret: Js.meth_callback(float, float => unit) = Js.Unsafe.callback(f);
+  ret;
   /* PlaygroundLib.startPlayground(); */
 };
+
+let () = Js.export_all([%js {val startWorker = start}]);

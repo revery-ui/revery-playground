@@ -205,5 +205,6 @@ let start = exec => {
 
   log("Initialized");
   sendMessage(Protocol.ToRenderer.Ready);
+
   /* PlaygroundLib.startPlayground(); */
 };
