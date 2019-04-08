@@ -7,7 +7,7 @@ open Revery.UI;
 open Js_of_ocaml;
 
 open PlaygroundLib.Types;
-         
+
 let stderr_buffer = Buffer.create(100);
 let stdout_buffer = Buffer.create(100);
 
@@ -26,26 +26,26 @@ let execute: Js.t(Js.js_string) => Js.t(Js.js_string) =
 
 let postfix = "\nPlaygroundLib.Worker.setRenderFunction(render);";
 
-let execute2 =
-  code => {
-    let code = Js.to_string(code) ++ postfix;
-    let buffer = Buffer.create(100);
-    let formatter = Format.formatter_of_buffer(buffer);
-    JsooTop.execute(true, formatter, code);
-         
-    let result = Buffer.contents(buffer);
-    let stderr_result = Buffer.contents(stderr_buffer);
-    let stdout_result = Buffer.contents(stdout_buffer);
+let execute2 = code => {
+  let code = Js.to_string(code) ++ postfix;
+  let buffer = Buffer.create(100);
+  let formatter = Format.formatter_of_buffer(buffer);
+  JsooTop.execute(true, formatter, code);
 
-    Buffer.clear(stderr_buffer);
-    Buffer.clear(stdout_buffer);
+  let result = Buffer.contents(buffer);
+  let stderr_result = Buffer.contents(stderr_buffer);
+  let stdout_result = Buffer.contents(stdout_buffer);
 
-    [%js {
-      val result = Js.string(result);
-      val stderr = Js.string(stderr_result);
-      val stdout = Js.string(stdout_result)
-    }]
+  Buffer.clear(stderr_buffer);
+  Buffer.clear(stdout_buffer);
+
+  %js
+  {
+    val result = Js.string(result);
+    val stderr = Js.string(stderr_result);
+    val stdout = Js.string(stdout_result)
   };
+};
 
 let reasonSyntax = () => {
   open Reason_toolchain.From_current;
@@ -101,9 +101,9 @@ let start = () => {
 
   log("Initialized");
 
-  let f = (t) => {
-      Revery.Tick.pump();
-      /* log("WORKER TICK2: " ++ string_of_float(t)); */
+  let f = t => {
+    Revery.Tick.pump();
+                    /* log("WORKER TICK2: " ++ string_of_float(t)); */
   };
   let ret: Js.meth_callback(float, float => unit) = Js.Unsafe.callback(f);
   ret;

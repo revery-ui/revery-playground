@@ -25,7 +25,10 @@ let nodeFromId = (id: int) => {
   let item = Hashtbl.find_opt(idToNode, id);
   switch (item) {
   | Some(v) => v
-  | None => failwith("(renderer - nodeFromId) Cannot find node: " ++ string_of_int(id))
+  | None =>
+    failwith(
+      "(renderer - nodeFromId) Cannot find node: " ++ string_of_int(id),
+    )
   };
 };
 
@@ -33,7 +36,10 @@ let workerIdFromId = (id: int) => {
   let workerId = Hashtbl.find_opt(idToWorkerId, id);
   switch (workerId) {
   | Some(v) => v
-  | None => failwith("(renderer - workerIdFromId) Cannot find node: " ++ string_of_int(id))
+  | None =>
+    failwith(
+      "(renderer - workerIdFromId) Cannot find node: " ++ string_of_int(id),
+    )
   };
 };
 
@@ -79,7 +85,7 @@ let visitUpdate = u =>
     textNode#setText(text);
   | SetImageSrc(id, src) =>
     let imageNode = Obj.magic(nodeFromId(id));
-     print_endline ("Renderer: setting src: " ++ src);
+    print_endline("Renderer: setting src: " ++ src);
     imageNode#setSrc(src);
   | _ => ()
   };
@@ -87,7 +93,10 @@ let visitUpdate = u =>
 let update = (v: list(updates)) => {
   /* print_endline("Got updates: "); */
   /* Types.showAll(v); */
-  List.iter(visitUpdate, v);
+  List.iter(
+    visitUpdate,
+    v,
+  );
 };
 
 let start = (onCompiling, onReady, onOutput) => {
@@ -126,16 +135,17 @@ let start = (onCompiling, onReady, onOutput) => {
 
   let handleMessage = (msg: Protocol.ToRenderer.t) => {
     switch (msg) {
-    | Updates(updates) => {
-        isLayoutDirty := true;
-        update(updates);
-    }
-    | Output(v) => 
-        let _ = Js.Unsafe.fun_call(onOutput, [|Obj.magic(v)|]);
+    | Updates(updates) =>
+      isLayoutDirty := true;
+      update(updates);
+    | Output(v) =>
+      let _ = Js.Unsafe.fun_call(onOutput, [|Obj.magic(v)|]);
+      ();
     | Compiling =>
       isWorkerReady := false;
       print_endline("Compiling...");
       let _ = Js.Unsafe.fun_call(onCompiling, [||]);
+      ();
     | Ready =>
       isWorkerReady := true;
       print_endline("Ready!");
@@ -181,13 +191,10 @@ let start = (onCompiling, onReady, onOutput) => {
           |> sendMouseEvent;
         },
       );
-  let _ =
-    Revery_Core.Event.subscribe(
-      Revery_Draw.FontCache.onFontLoaded,
-      () => {
-        isLayoutDirty := true;
-      },
-    );
+    let _ =
+      Revery_Core.Event.subscribe(Revery_Draw.FontCache.onFontLoaded, () =>
+        isLayoutDirty := true
+      );
 
     let _ =
       Revery_Core.Event.subscribe(win.onMouseDown, m =>
@@ -245,11 +252,11 @@ let start = (onCompiling, onReady, onOutput) => {
         /* Layout.printCssNode(layoutNode); */
 
         if (isLayoutDirty^) {
-            Layout.layout(~force=true, rootNode);
-            rootNode#recalculate();
-            sendMeasurements();
-            isLayoutDirty := false;
-        }
+          Layout.layout(~force=true, rootNode);
+          rootNode#recalculate();
+          sendMeasurements();
+          isLayoutDirty := false;
+        };
 
         Mat4.ortho(
           _projection,
