@@ -70,14 +70,17 @@ class proxyImageNode (src) = {
     queueUpdate(SetStyle(super#getInternalId(), style));
   };
   pub! addChild = child => {
-    print_endline("WORKER: ADD TEXT CHILD");
     queueUpdate(AddChild(super#getInternalId(), child#getInternalId()));
     super#addChild(child);
   };
   pub! removeChild = child => {
-    print_endline("WORKER: REMOVE TEXT CHILD");
     queueUpdate(RemoveChild(super#getInternalId(), child#getInternalId()));
     super#removeChild(child);
+  };
+  pub! setSrc = src => {
+    print_endline("WORKER: Set src");
+    queueUpdate(SetImageSrc(super#getInternalId(), src));
+    super#setSrc(src);
   };
   initializer {
     print_endline("IMAGE: Initial src: " ++ src);

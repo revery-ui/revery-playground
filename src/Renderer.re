@@ -79,6 +79,7 @@ let visitUpdate = u =>
     textNode#setText(text);
   | SetImageSrc(id, src) =>
     let imageNode = Obj.magic(nodeFromId(id));
+     print_endline ("Renderer: setting src: " ++ src);
     imageNode#setSrc(src);
   | _ => ()
   };
@@ -149,9 +150,7 @@ let start = (onCompiling, onReady, onOutput) => {
   worker##.onmessage :=
     Js_of_ocaml.Dom_html.handler(evt => {
       let data = Js.Unsafe.get(evt, "data");
-      print_endline ("Before handle message...");
       handleMessage(data);
-      print_endline ("After handle message...");
       Js._true;
     });
 
