@@ -48,8 +48,3 @@
     (alias
      (name default)
      (deps Playground.js))
-
-(install
-    (section bin)
-    (package playground)
-    (files outrun-logo.png revery-logo-only.png index.css Roboto-Regular.ttf FontAwesome5FreeSolid.otf playground.html gl-matrix-min.js Renderer.bc.js Playground.js worker.js))
