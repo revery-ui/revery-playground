@@ -21,6 +21,7 @@
   "devDependencies": {
     "fs-extra": "^7.0.1",
     "http-server": "^0.11.1",
-    "monaco-editor": "^0.15.6"
+    "monaco-editor": "^0.15.6",
+    "uglify-js": "^3.5.4"
   }
 }

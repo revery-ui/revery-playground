@@ -8,7 +8,8 @@
   },
   "homepage": "https://github.com/bryphe/revery#readme",
   "scripts": {
-    "format": "esy dune build @fmt --auto-promote"
+    "format": "esy dune build @fmt --auto-promote",
+    "build:release": "esy b dune build --profile=release --root . -j4"
   },
   "esy": {
     "buildsInSource": "_build",
@@ -27,14 +28,13 @@
     "rebez": "github:jchavarri/rebez#46cbc183",
     "@opam/cmdliner": "1.0.2",
     "@opam/dune": "1.7.3",
-    "@opam/js_of_ocaml": "link:../../js_of_ocaml/js_of_ocaml.opam",
-    "@opam/js_of_ocaml-lwt": "link:../../js_of_ocaml/js_of_ocaml-lwt.opam",
-    "@opam/js_of_ocaml-compiler": "link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
-    "@opam/js_of_ocaml-ppx": "link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
-    "@opam/js_of_ocaml-toplevel": "link:../../js_of_ocaml/js_of_ocaml-toplevel.opam",
+    "@opam/js_of_ocaml": "github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f",
+    "@opam/js_of_ocaml-lwt": "github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f",
+    "@opam/js_of_ocaml-compiler": "github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f",
+    "@opam/js_of_ocaml-ppx": "github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f",
+    "@opam/js_of_ocaml-toplevel": "github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f",
     "@brisk/brisk-reconciler": "github:briskml/brisk-reconciler#daa00be",
-    "reason-fontkit": "link:../../reason-fontkit",
-    "revery": "github:revery-ui/revery#43890d3fe2ba27272581ef1a4d7c79ba0da9f76e"
+    "revery": "github:revery-ui/revery#bedbcbb"
   },
   "peerDependencies": {
     "ocaml": "^4.7.0"
