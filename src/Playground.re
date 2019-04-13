@@ -87,26 +87,12 @@ let start = () => {
   JsooTop.initialize();
 
   let render = PlaygroundLib.Worker.start(execute2);
-
-  /* Worker.set_onmessage((updates: PlaygroundLib.Protocol.ToWorker.t) => { */
-  /*     log ("WORKER: GOT UPDATES"); */
-  /*     switch (updates) { */
-  /*     | SourceCodeUpdated(v) => { */
-  /*         log ("got source code update"); */
-  /*         let _  = execute2(v); */
-  /*     } */
-  /*   | _ => log("unknown update"); */
-  /*   } */
-  /* }); */
-
   log("Initialized");
 
   let f = _ => {
     render();
   };
-  let ret: Js.meth_callback(float, float => unit) = Js.Unsafe.callback(f);
-  ret;
-  /* PlaygroundLib.startPlayground(); */
+  Js.Unsafe.callback(f);
 };
 
 let () = Js.export_all([%js {val startWorker = start}]);

@@ -44,8 +44,13 @@ let reveryRoot = getReveryRoot();
 console.log ("Revery root: " + reveryRoot);
 let reveryExampleSources = path.join(reveryRoot, "examples");
 
-let getCommit = () => {
+let getShortCommit = () => {
     let result = cp.execSync("git rev-parse --short HEAD");
+    return result.toString("utf8").trim();
+}
+
+let getLongCommit = () => {
+    let result = cp.execSync("git rev-parse HEAD");
     return result.toString("utf8").trim();
 }
 
@@ -54,10 +59,11 @@ let getVersion = () => {
     return JSON.parse(packageJson).version;
 }
 
-let commitId = getCommit();
+let shortCommitId = getShortCommit();
+let longCommitId = getLongCommit();
 let version = getVersion();
 console.log("Esy path: " + esyPath);
-console.log("Commit id: " + commitId);
+console.log("Commit id: " + longCommitId);
 console.log("Version: " + version);
 
 let getBuildArtifactFolder = () => {
@@ -96,7 +102,8 @@ let indexHtmlPath = path.join(playgroundBuild, "index.html");
 
 let indexHtml = fs.readFileSync(indexHtmlPath).toString("utf8");
 indexHtml = replace(indexHtml, "{#VERSION}", version);
-indexHtml = replace(indexHtml, "{#COMMIT}", commitId);
+indexHtml = replace(indexHtml, "{#SHORT_COMMIT}", shortCommitId);
+indexHtml = replace(indexHtml, "{#LONG_COMMIT}", longCommitId);
 
 fs.writeFileSync(indexHtmlPath, indexHtml);
 console.log("Done!");

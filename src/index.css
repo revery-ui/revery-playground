@@ -1,7 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background-color: #0e1113;
+    background-color: #001c34;
 }
 
 .root {
@@ -112,7 +112,7 @@ html, body {
 }
 
 .header, .footer {
-    background-color: #0e1113;
+    background-color: #001c34;
     color: white;
     font-family: 'Roboto', sans-serif;
     position: absolute;
