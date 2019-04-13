@@ -1,10 +1,10 @@
 open Revery;
 open Revery.UI;
 
-open Js_of_ocaml;
-
 open PlaygroundLib;
 open PlaygroundLib.Types;
+
+open Js_of_ocaml;
 
 let log = v => print_endline("[Worker] " ++ v);
 

@@ -4,9 +4,6 @@ open Js_of_ocaml_toplevel;
 open Revery;
 open Revery.UI;
 
-open Js_of_ocaml;
-
-open Worker;
 open PlaygroundLib.Types;
 
 let stderr_buffer = Buffer.create(100);
@@ -24,6 +21,8 @@ let execute: Js.t(Js.js_string) => Js.t(Js.js_string) =
     let result = Buffer.contents(buffer);
     Js.string(result);
   };
+
+PlaygroundLib.Worker.handler := Some(Backend.setRenderFunction);
 
 let postfix = "\nPlaygroundLib.Worker.setRenderFunction(render);";
 
