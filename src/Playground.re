@@ -11,7 +11,7 @@ open PlaygroundLib.Types;
 let stderr_buffer = Buffer.create(100);
 let stdout_buffer = Buffer.create(100);
 
-Sys_js.set_channel_flusher(stdout, Buffer.add_string(stdout_buffer));
+/* Sys_js.set_channel_flusher(stdout, Buffer.add_string(stdout_buffer)); */
 Sys_js.set_channel_flusher(stderr, Buffer.add_string(stderr_buffer));
 
 let execute: Js.t(Js.js_string) => Js.t(Js.js_string) =
@@ -86,7 +86,7 @@ let start = () => {
   reasonSyntax();
   JsooTop.initialize();
 
-  PlaygroundLib.Worker.start(execute2);
+  let render = PlaygroundLib.Worker.start(execute2);
 
   /* Worker.set_onmessage((updates: PlaygroundLib.Protocol.ToWorker.t) => { */
   /*     log ("WORKER: GOT UPDATES"); */
@@ -101,9 +101,8 @@ let start = () => {
 
   log("Initialized");
 
-  let f = t => {
-    Revery.Tick.pump();
-                    /* log("WORKER TICK2: " ++ string_of_float(t)); */
+  let f = _ => {
+    render();
   };
   let ret: Js.meth_callback(float, float => unit) = Js.Unsafe.callback(f);
   ret;

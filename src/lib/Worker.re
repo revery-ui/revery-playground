@@ -5,8 +5,10 @@ open Js_of_ocaml;
 
 open Types;
 
-let log = v => ();
-/* let log = v => print_endline("[Worker] " ++ v); */
+/* let log = v => { */
+/*     Firebug.console##log(v); */
+/* }; */
+let log = v => print_endline("[Worker] " ++ v);
 
 let renderFunction =
   ref(() =>
@@ -78,12 +80,10 @@ class proxyImageNode (src) = {
     super#removeChild(child);
   };
   pub! setSrc = src => {
-    print_endline("WORKER: Set src");
     queueUpdate(SetImageSrc(super#getInternalId(), src));
     super#setSrc(src);
   };
   initializer {
-    print_endline("IMAGE: Initial src: " ++ src);
     queueUpdate(NewNode(super#getInternalId(), Image));
     queueUpdate(SetImageSrc(super#getInternalId(), src));
   };
@@ -143,16 +143,14 @@ let render = () => {
   );
 
   log("Trying to post...");
-  /* let _derp = Js.string("hi"); */
   let updatesToSend = _pendingUpdates^ |> List.rev;
-  /* Types.showAll(updatesToSend); */
   sendMessage(Protocol.ToRenderer.Updates(updatesToSend));
-  /* Worker.post_message(updatesToSend); */
   log("Posted!" ++ string_of_int(List.length(updatesToSend)));
   clearUpdates();
 };
 
 let onStale = () => {
+  log("onStale - re-rendering");
   render();
 };
 
@@ -201,4 +199,13 @@ let start = exec => {
   log("Initialized");
   sendMessage(Protocol.ToRenderer.Ready);
   /* PlaygroundLib.startPlayground(); */
+
+  () => {
+    Revery.Tick.pump();
+    Revery.UI.AnimationTicker.tick();
+
+    if (Revery.UI.Animated.anyActiveAnimations()) {
+        render();   
+    };
+  };
 };
