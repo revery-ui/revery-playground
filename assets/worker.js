@@ -12,7 +12,7 @@ var _time = {
 };
 
 importScripts("./gl-matrix-min.js");
-importScripts("./Playground.js");
+importScripts("./Revery_worker.js");
 
 let tickFunction = startWorker();
 

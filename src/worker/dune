@@ -1,6 +1,6 @@
 (executable
- (name Playground)
- (modules Playground reason_util)
+ (name Revery_worker)
+ (modules Revery_worker Playground Backend reason_util)
  (flags :standard -safe-string -rectypes)
  (link_flags (:standard -linkall))
  (preprocess (pps js_of_ocaml-ppx))
@@ -10,11 +10,11 @@
 
     (rule
      (targets export.txt)
-     (deps Playground.bc)
+     (deps Revery_worker.bc)
      (action (run jsoo_listunits -o %{targets} stdlib bigarray brisk-reconciler reglm Revery_Core Revery_Draw Revery_Math Revery_Native Revery_UI Revery_UI_Components Revery playground.lib)))
 
     (rule
-     (targets Playground.js)
+     (targets Revery_worker.js)
      (action
       (run %{bin:js_of_ocaml}
        --export %{dep:export.txt}
@@ -31,15 +31,15 @@
        %{lib:reglfw:image_stubs.js}
        %{lib:reglfw:stb_image_stubs.js}
        %{lib:Revery_Core:file.js}
-       %{dep:Playground.bc}
+       %{dep:Revery_worker.bc}
        -o %{targets}
       )))
 
     (alias
      (name default)
-     (deps Playground.js))
+     (deps Revery_worker.js))
 
 (install
     (section bin)
     (package playground)
-    (files Playground.js))
+    (files Revery_worker.js))

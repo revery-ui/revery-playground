@@ -19,7 +19,20 @@
 
 - `npm start`
 
+## Code Structure
+
+The Revery playground is split into two components:
+- The _front-end_ (renderer) - responsible for rendering the UI
+- The _back-end_ (worker) - responsible for parsing and compiling the code
+
+The code is structured as follows:
+- `src/lib/` - Common code between the renderer and worker, common types, and the communication protocol.
+- `src/renderer` - The front-end renderer code. This is responsible for rendering, layout, and acquiring and passing UI events to the worker.
+- `src/worker` - The back-end worker code. This is responsible for picking up code changes, parsing, and notifying the UI. It also runs the app loop (animations, ticker).
+
+
 ## Special Thanks
 
 - @thangngoc89 for sketch.sh and his great blog series: https://khoanguyen.me/sketch/part-2-the-engine/
 - [Ocsigen](http://ocsigen.org) for the excellent [js_of_ocaml](https://github.com/ocsigen/js_of_ocaml) tool
+- [Microsoft](https://microsoft.com) for the excellent [Monaco editor](https://microsoft.github.io/monaco-editor/index.html)

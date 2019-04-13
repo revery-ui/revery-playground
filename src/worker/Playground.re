@@ -6,6 +6,7 @@ open Revery.UI;
 
 open Js_of_ocaml;
 
+open Worker;
 open PlaygroundLib.Types;
 
 let stderr_buffer = Buffer.create(100);
@@ -79,20 +80,3 @@ let reasonSyntax = () => {
   Toploop.print_out_phrase :=
     wrap(copy_out_phrase, Reason_oprint.print_out_phrase);
 };
-
-let log = v => print_endline("[Worker] " ++ v);
-
-let start = () => {
-  reasonSyntax();
-  JsooTop.initialize();
-
-  let render = PlaygroundLib.Worker.start(execute2);
-  log("Initialized");
-
-  let f = _ => {
-    render();
-  };
-  Js.Unsafe.callback(f);
-};
-
-let () = Js.export_all([%js {val startWorker = start}]);
