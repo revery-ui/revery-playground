@@ -176,7 +176,7 @@ let start = (onCompiling, onReady, onOutput) => {
       App.createWindow(
         app,
         "Welcome to Revery",
-        ~createOptions={...Window.defaultCreateOptions, maximized: true},
+        ~createOptions=WindowCreateOptions.create(~maximized=true, ()),
       );
 
     let _ =

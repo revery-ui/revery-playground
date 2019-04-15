@@ -147,16 +147,18 @@ let render = () => {
   clearUpdates();
 };
 
+let dirty = ref(true);
+
 let onStale = () => {
   log("onStale - re-rendering");
-  render();
+  dirty := true;
 };
 
 let _ = Revery_Core.Event.subscribe(React.onStale, onStale);
 
 let setRenderFunction = fn => {
   renderFunction := fn;
-  render();
+  dirty := true;
 };
 
 let start = exec => {
@@ -201,8 +203,9 @@ let start = exec => {
     Revery.Tick.pump();
     Revery.UI.AnimationTicker.tick();
 
-    if (Revery.UI.Animated.anyActiveAnimations()) {
+    if (Revery.UI.Animated.anyActiveAnimations() || dirty^) {
       render();
+      dirty := false;
     };
   };
 };
