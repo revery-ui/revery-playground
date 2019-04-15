@@ -33,6 +33,6 @@ The code is structured as follows:
 
 ## Special Thanks
 
-- @thangngoc89 for sketch.sh and his great blog series: https://khoanguyen.me/sketch/part-2-the-engine/
+- [@thangngoc89](https://github.com/thangngoc89) for sketch.sh and his great blog series: https://khoanguyen.me/sketch/part-2-the-engine/
 - [Ocsigen](http://ocsigen.org) for the excellent [js_of_ocaml](https://github.com/ocsigen/js_of_ocaml) tool
 - [Microsoft](https://microsoft.com) for the excellent [Monaco editor](https://microsoft.github.io/monaco-editor/index.html)
