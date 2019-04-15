@@ -202,7 +202,7 @@ let start = exec => {
     Revery.UI.AnimationTicker.tick();
 
     if (Revery.UI.Animated.anyActiveAnimations()) {
-        render();   
+      render();
     };
   };
 };

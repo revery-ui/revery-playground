@@ -1,6 +1,6 @@
-# revery-playground
+[![Build Status](https://dev.azure.com/revery-ui/revery/_apis/build/status/revery-ui.revery-playground?branchName=master)](https://dev.azure.com/revery-ui/revery/_build/latest?definitionId=9&branchName=master)
 
-### Examples w/ code alongside
+# revery-playground
 
 ## Build
 

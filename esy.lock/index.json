@@ -1,5 +1,5 @@
 {
-  "checksum": "4c89ee397bc5ec2f34c942ce3ba21062",
+  "checksum": "fbcf98856f00b18dff8662a7e9adf06d",
   "root": "revery-playground@link-dev:./esy.json",
   "node": {
     "revery-playground@link-dev:./esy.json": {
@@ -9,13 +9,13 @@
       "source": { "type": "link-dev", "path": ".", "manifest": "esy.json" },
       "overrides": [],
       "dependencies": [
-        "revery@github:revery-ui/revery#43890d3fe2ba27272581ef1a4d7c79ba0da9f76e@d41d8cd9",
+        "revery@github:revery-ui/revery#bedbcbb@d41d8cd9",
         "ocaml@4.7.1004@d41d8cd9",
-        "@opam/js_of_ocaml-toplevel@link:../../js_of_ocaml/js_of_ocaml-toplevel.opam",
-        "@opam/js_of_ocaml-ppx@link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
-        "@opam/js_of_ocaml-lwt@link:../../js_of_ocaml/js_of_ocaml-lwt.opam",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam",
+        "@opam/js_of_ocaml-toplevel@github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml-lwt@github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
         "@esy-ocaml/reason@3.4.0@d41d8cd9"
       ],
       "devDependencies": [
@@ -23,17 +23,13 @@
         "@opam/dune@opam:1.7.3@72aad784"
       ]
     },
-    "revery@github:revery-ui/revery#43890d3fe2ba27272581ef1a4d7c79ba0da9f76e@d41d8cd9": {
-      "id":
-        "revery@github:revery-ui/revery#43890d3fe2ba27272581ef1a4d7c79ba0da9f76e@d41d8cd9",
+    "revery@github:revery-ui/revery#bedbcbb@d41d8cd9": {
+      "id": "revery@github:revery-ui/revery#bedbcbb@d41d8cd9",
       "name": "revery",
-      "version":
-        "github:revery-ui/revery#43890d3fe2ba27272581ef1a4d7c79ba0da9f76e",
+      "version": "github:revery-ui/revery#bedbcbb",
       "source": {
         "type": "install",
-        "source": [
-          "github:revery-ui/revery#43890d3fe2ba27272581ef1a4d7c79ba0da9f76e"
-        ]
+        "source": [ "github:revery-ui/revery#bedbcbb" ]
       },
       "overrides": [],
       "dependencies": [
@@ -41,13 +37,12 @@
         "rebez@github:jchavarri/rebez#46cbc183@d41d8cd9",
         "reason-glfw@3.2.1024@d41d8cd9",
         "reason-gl-matrix@0.9.9304@d41d8cd9",
-        "reason-fontkit@link:../../reason-fontkit",
-        "ocaml@4.7.1004@d41d8cd9", "flex@1.2.2@d41d8cd9",
-        "@reason-native/console@0.0.3@d41d8cd9",
+        "reason-fontkit@2.4.1@d41d8cd9", "ocaml@4.7.1004@d41d8cd9",
+        "flex@1.2.2@d41d8cd9", "@reason-native/console@0.0.3@d41d8cd9",
         "@opam/lwt_ppx@opam:1.2.2@946c5ba2", "@opam/lwt@opam:4.2.1@c1888ec9",
-        "@opam/js_of_ocaml-lwt@link:../../js_of_ocaml/js_of_ocaml-lwt.opam",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam",
+        "@opam/js_of_ocaml-lwt@github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
         "@opam/color@opam:0.2.0@8ef09171",
         "@esy-ocaml/reason@3.4.0@d41d8cd9",
         "@brisk/brisk-reconciler@github:briskml/brisk-reconciler#daa00be@d41d8cd9"
@@ -88,9 +83,9 @@
         "refmterr@3.1.10@d41d8cd9", "ocaml@4.7.1004@d41d8cd9",
         "@opam/lwt_ppx@opam:1.2.2@946c5ba2", "@opam/lwt@opam:4.2.1@c1888ec9",
         "@opam/lambda-term@opam:1.13@a3d28a27",
-        "@opam/js_of_ocaml-lwt@link:../../js_of_ocaml/js_of_ocaml-lwt.opam",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam",
+        "@opam/js_of_ocaml-lwt@github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
         "@opam/dune@opam:1.7.3@72aad784", "@opam/chalk@opam:1.0@6f5da5ff",
         "@esy-ocaml/reason@3.4.0@d41d8cd9"
       ],
@@ -145,9 +140,9 @@
         "ocaml@4.7.1004@d41d8cd9", "esy-glfw@3.2.1009@d41d8cd9",
         "esy-cmake@0.3.5@d41d8cd9", "@opam/lwt_ppx@opam:1.2.2@946c5ba2",
         "@opam/lwt@opam:4.2.1@c1888ec9",
-        "@opam/js_of_ocaml-lwt@link:../../js_of_ocaml/js_of_ocaml-lwt.opam",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam",
+        "@opam/js_of_ocaml-lwt@github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
         "@opam/dune@opam:1.7.3@72aad784", "@esy-ocaml/reason@3.4.0@d41d8cd9"
       ],
       "devDependencies": []
@@ -166,16 +161,21 @@
       "dependencies": [
         "rejest@1.3.0@d41d8cd9", "refmterr@3.1.10@d41d8cd9",
         "ocaml@4.7.1004@d41d8cd9",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
         "@opam/dune@opam:1.7.3@72aad784", "@esy-ocaml/reason@3.4.0@d41d8cd9"
       ],
       "devDependencies": []
     },
-    "reason-fontkit@link:../../reason-fontkit": {
-      "id": "reason-fontkit@link:../../reason-fontkit",
+    "reason-fontkit@2.4.1@d41d8cd9": {
+      "id": "reason-fontkit@2.4.1@d41d8cd9",
       "name": "reason-fontkit",
-      "version": "link:../../reason-fontkit",
-      "source": { "type": "link", "path": "../../reason-fontkit" },
+      "version": "2.4.1",
+      "source": {
+        "type": "install",
+        "source": [
+          "archive:https://registry.npmjs.org/reason-fontkit/-/reason-fontkit-2.4.1.tgz#sha1:696911e73dea0ebbd90be4b3207671362794b2c8"
+        ]
+      },
       "overrides": [],
       "dependencies": [
         "refmterr@3.1.10@d41d8cd9", "reason-glfw@3.2.1024@d41d8cd9",
@@ -705,8 +705,8 @@
       ],
       "devDependencies": [ "ocaml@4.7.1004@d41d8cd9" ]
     },
-    "@opam/merlin-extend@opam:0.3@e1fc0d08": {
-      "id": "@opam/merlin-extend@opam:0.3@e1fc0d08",
+    "@opam/merlin-extend@opam:0.3@0af73a50": {
+      "id": "@opam/merlin-extend@opam:0.3@0af73a50",
       "name": "@opam/merlin-extend",
       "version": "opam:0.3",
       "source": {
@@ -937,89 +937,95 @@
         "@opam/camomile@opam:1.0.1@4a2e8bdd"
       ]
     },
-    "@opam/js_of_ocaml-toplevel@link:../../js_of_ocaml/js_of_ocaml-toplevel.opam": {
+    "@opam/js_of_ocaml-toplevel@github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f@d41d8cd9": {
       "id":
-        "@opam/js_of_ocaml-toplevel@link:../../js_of_ocaml/js_of_ocaml-toplevel.opam",
+        "@opam/js_of_ocaml-toplevel@github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f@d41d8cd9",
       "name": "@opam/js_of_ocaml-toplevel",
-      "version": "link:../../js_of_ocaml/js_of_ocaml-toplevel.opam",
+      "version":
+        "github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f",
       "source": {
-        "type": "link",
-        "path": "../../js_of_ocaml",
-        "manifest": "js_of_ocaml-toplevel.opam"
+        "type": "install",
+        "source": [
+          "github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f"
+        ]
       },
       "overrides": [],
       "dependencies": [
         "ocaml@4.7.1004@d41d8cd9", "@opam/ocamlfind@opam:1.8.0@f744a0c5",
-        "@opam/js_of_ocaml-ppx@link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam",
+        "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
         "@opam/dune@opam:1.7.3@72aad784", "@esy-ocaml/substs@0.0.1@d41d8cd9"
       ],
       "devDependencies": [
         "ocaml@4.7.1004@d41d8cd9", "@opam/ocamlfind@opam:1.8.0@f744a0c5",
-        "@opam/js_of_ocaml-ppx@link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam"
+        "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9"
       ]
     },
-    "@opam/js_of_ocaml-ppx@link:../../js_of_ocaml/js_of_ocaml-ppx.opam": {
+    "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9": {
       "id":
-        "@opam/js_of_ocaml-ppx@link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
+        "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9",
       "name": "@opam/js_of_ocaml-ppx",
-      "version": "link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
+      "version": "github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f",
       "source": {
-        "type": "link",
-        "path": "../../js_of_ocaml",
-        "manifest": "js_of_ocaml-ppx.opam"
+        "type": "install",
+        "source": [
+          "github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f"
+        ]
       },
       "overrides": [],
       "dependencies": [
         "ocaml@4.7.1004@d41d8cd9",
         "@opam/ppx_tools_versioned@opam:5.2.1@1eeea765",
         "@opam/ocaml-migrate-parsetree@opam:1.2.0@23e55f71",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
         "@opam/dune@opam:1.7.3@72aad784", "@esy-ocaml/substs@0.0.1@d41d8cd9"
       ],
       "devDependencies": [
         "ocaml@4.7.1004@d41d8cd9",
         "@opam/ppx_tools_versioned@opam:5.2.1@1eeea765",
         "@opam/ocaml-migrate-parsetree@opam:1.2.0@23e55f71",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam"
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9"
       ]
     },
-    "@opam/js_of_ocaml-lwt@link:../../js_of_ocaml/js_of_ocaml-lwt.opam": {
+    "@opam/js_of_ocaml-lwt@github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f@d41d8cd9": {
       "id":
-        "@opam/js_of_ocaml-lwt@link:../../js_of_ocaml/js_of_ocaml-lwt.opam",
+        "@opam/js_of_ocaml-lwt@github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f@d41d8cd9",
       "name": "@opam/js_of_ocaml-lwt",
-      "version": "link:../../js_of_ocaml/js_of_ocaml-lwt.opam",
+      "version": "github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f",
       "source": {
-        "type": "link",
-        "path": "../../js_of_ocaml",
-        "manifest": "js_of_ocaml-lwt.opam"
+        "type": "install",
+        "source": [
+          "github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f"
+        ]
       },
       "overrides": [],
       "dependencies": [
         "ocaml@4.7.1004@d41d8cd9", "@opam/lwt_log@opam:1.1.0@72575e04",
         "@opam/lwt@opam:4.2.1@c1888ec9",
-        "@opam/js_of_ocaml-ppx@link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam",
+        "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
         "@opam/dune@opam:1.7.3@72aad784", "@esy-ocaml/substs@0.0.1@d41d8cd9"
       ],
       "devDependencies": [
         "ocaml@4.7.1004@d41d8cd9", "@opam/lwt@opam:4.2.1@c1888ec9",
-        "@opam/js_of_ocaml-ppx@link:../../js_of_ocaml/js_of_ocaml-ppx.opam",
-        "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam"
+        "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9",
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9"
       ]
     },
-    "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam": {
+    "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9": {
       "id":
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
       "name": "@opam/js_of_ocaml-compiler",
-      "version": "link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
+      "version":
+        "github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f",
       "source": {
-        "type": "link",
-        "path": "../../js_of_ocaml",
-        "manifest": "js_of_ocaml-compiler.opam"
+        "type": "install",
+        "source": [
+          "github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f"
+        ]
       },
       "overrides": [],
       "dependencies": [
@@ -1035,28 +1041,28 @@
         "@opam/cmdliner@opam:1.0.2@8ab0598a"
       ]
     },
-    "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam": {
-      "id": "@opam/js_of_ocaml@link:../../js_of_ocaml/js_of_ocaml.opam",
+    "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9": {
+      "id":
+        "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
       "name": "@opam/js_of_ocaml",
-      "version": "link:../../js_of_ocaml/js_of_ocaml.opam",
+      "version": "github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f",
       "source": {
-        "type": "link",
-        "path": "../../js_of_ocaml",
-        "manifest": "js_of_ocaml.opam"
+        "type": "install",
+        "source": [ "github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f" ]
       },
       "overrides": [],
       "dependencies": [
         "ocaml@4.7.1004@d41d8cd9", "@opam/uchar@opam:0.0.2@c8218eea",
         "@opam/ppx_tools_versioned@opam:5.2.1@1eeea765",
         "@opam/ocaml-migrate-parsetree@opam:1.2.0@23e55f71",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam",
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9",
         "@opam/dune@opam:1.7.3@72aad784", "@esy-ocaml/substs@0.0.1@d41d8cd9"
       ],
       "devDependencies": [
         "ocaml@4.7.1004@d41d8cd9", "@opam/uchar@opam:0.0.2@c8218eea",
         "@opam/ppx_tools_versioned@opam:5.2.1@1eeea765",
         "@opam/ocaml-migrate-parsetree@opam:1.2.0@23e55f71",
-        "@opam/js_of_ocaml-compiler@link:../../js_of_ocaml/js_of_ocaml-compiler.opam"
+        "@opam/js_of_ocaml-compiler@github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f@d41d8cd9"
       ]
     },
     "@opam/jbuilder@opam:transition@58bdfe0a": {
@@ -1454,7 +1460,7 @@
         "ocaml@4.7.1004@d41d8cd9", "@opam/result@opam:1.3@bee8bf2e",
         "@opam/ocamlfind@opam:1.8.0@f744a0c5",
         "@opam/ocaml-migrate-parsetree@opam:1.2.0@23e55f71",
-        "@opam/merlin-extend@opam:0.3@e1fc0d08",
+        "@opam/merlin-extend@opam:0.3@0af73a50",
         "@opam/menhir@opam:20181113@0c8257a8",
         "@opam/dune@opam:1.7.3@72aad784"
       ],
