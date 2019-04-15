@@ -1,13 +1,11 @@
 open Revery;
 open Revery.UI;
 
+open PlaygroundLib;
+open PlaygroundLib.Types;
+
 open Js_of_ocaml;
 
-open Types;
-
-/* let log = v => { */
-/*     Firebug.console##log(v); */
-/* }; */
 let log = v => print_endline("[Worker] " ++ v);
 
 let renderFunction =
@@ -155,6 +153,7 @@ let onStale = () => {
 };
 
 let _ = Revery_Core.Event.subscribe(React.onStale, onStale);
+
 let setRenderFunction = fn => {
   renderFunction := fn;
   render();
@@ -192,13 +191,11 @@ let start = exec => {
       log("measurements applied");
     | MouseEvent(me) => Revery_UI.Mouse.dispatch(mouseCursor, me, rootNode)
     | KeyboardEvent(ke) => Revery_UI.Keyboard.dispatch(ke)
-    | _ => log("unknown update")
     }
   );
 
   log("Initialized");
   sendMessage(Protocol.ToRenderer.Ready);
-  /* PlaygroundLib.startPlayground(); */
 
   () => {
     Revery.Tick.pump();

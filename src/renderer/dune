@@ -1,0 +1,13 @@
+(executable
+ (name Renderer)
+ (modules Renderer)
+ (preprocess (pps js_of_ocaml-ppx))
+ (public_name Renderer)
+ (libraries 
+  js_of_ocaml playground.lib Revery)
+ )
+
+(install
+    (section bin)
+    (package playground)
+    (files Renderer.bc.js))
