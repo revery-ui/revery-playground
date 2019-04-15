@@ -9,7 +9,6 @@
   Therefore, we create a hierarchy of nodes here, that 'proxy' updates
   to the renderer.
 */
-
 open Revery.UI;
 
 open PlaygroundLib;
@@ -23,7 +22,6 @@ let queueUpdate = (update: updates) => {
 };
 
 let getUpdates = () => _pendingUpdates^ |> List.rev;
-
 
 class proxyViewNode (()) = {
   as _this;
