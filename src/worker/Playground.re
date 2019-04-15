@@ -12,21 +12,11 @@ let stdout_buffer = Buffer.create(100);
 /* Sys_js.set_channel_flusher(stdout, Buffer.add_string(stdout_buffer)); */
 Sys_js.set_channel_flusher(stderr, Buffer.add_string(stderr_buffer));
 
-let execute: Js.t(Js.js_string) => Js.t(Js.js_string) =
-  code => {
-    let code = Js.to_string(code);
-    let buffer = Buffer.create(100);
-    let formatter = Format.formatter_of_buffer(buffer);
-    JsooTop.execute(true, formatter, code);
-    let result = Buffer.contents(buffer);
-    Js.string(result);
-  };
-
 PlaygroundLib.Worker.handler := Some(Backend.setRenderFunction);
 
 let postfix = "\nPlaygroundLib.Worker.setRenderFunction(render);";
 
-let execute2 = code => {
+let execute = code => {
   let code = Js.to_string(code) ++ postfix;
   let buffer = Buffer.create(100);
   let formatter = Format.formatter_of_buffer(buffer);

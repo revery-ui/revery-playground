@@ -8,6 +8,9 @@ open Js_of_ocaml;
 
 open Types;
 
+/*
+ * Protocol describing messages from renderer -> worker
+ */
 module ToWorker = {
   type nodeMeasurement = {
     id: int,
@@ -21,6 +24,9 @@ module ToWorker = {
     | MouseEvent(Revery_Core.Events.internalMouseEvents);
 };
 
+/*
+ * Protocol describing messages from worker -> renderer
+ */
 module ToRenderer = {
   type t =
     | Ready

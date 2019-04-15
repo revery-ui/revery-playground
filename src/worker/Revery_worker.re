@@ -4,15 +4,13 @@ open Js_of_ocaml_toplevel;
 open Playground;
 open Worker;
 
-let log = v => print_endline("[Worker] " ++ v);
-
 let start = () => {
   Playground.reasonSyntax();
   JsooTop.initialize();
 
-  let render = Backend.start(execute2);
-  log("Initialized");
+  let render = Backend.start(execute);
 
+  /* Return a callback to the callee to 'tick' the app */
   let f = _ => {
     render();
   };
