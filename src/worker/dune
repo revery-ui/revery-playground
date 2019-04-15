@@ -1,6 +1,6 @@
 (executable
  (name Revery_worker)
- (modules Revery_worker Playground Backend reason_util)
+ (modules Revery_worker Playground Backend NodeProxies ProxyNodeFactory reason_util)
  (flags :standard -safe-string -rectypes)
  (link_flags (:standard -linkall))
  (preprocess (pps js_of_ocaml-ppx))

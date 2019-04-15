@@ -6,7 +6,8 @@ open PlaygroundLib.Types;
 
 open Js_of_ocaml;
 
-let log = v => print_endline("[Worker] " ++ v);
+/* let log = v => print_endline("[Worker] " ++ v); */
+let log = _ => ();
 
 let renderFunction =
   ref(() =>
@@ -15,115 +16,8 @@ let renderFunction =
     />
   );
 
-let _pendingUpdates: ref(list(updates)) = ref([]);
-let clearUpdates = () => _pendingUpdates := [];
-let queueUpdate = (update: updates) => {
-  _pendingUpdates := [update, ..._pendingUpdates^];
-};
-
-class proxyViewNode (()) = {
-  as _this;
-  inherit (class viewNode)() as super;
-  pub! setStyle = style => {
-    queueUpdate(SetStyle(super#getInternalId(), style));
-  };
-  pub! addChild = child => {
-    queueUpdate(AddChild(super#getInternalId(), child#getInternalId()));
-    super#addChild(child);
-  };
-  pub! removeChild = child => {
-    queueUpdate(RemoveChild(super#getInternalId(), child#getInternalId()));
-    super#removeChild(child);
-  };
-  initializer {
-    queueUpdate(NewNode(super#getInternalId(), View));
-  };
-};
-
-class proxyTextNode (text) = {
-  as _this;
-  inherit (class textNode)(text) as super;
-  pub! setStyle = style => {
-    queueUpdate(SetStyle(super#getInternalId(), style));
-  };
-  pub! addChild = child => {
-    queueUpdate(AddChild(super#getInternalId(), child#getInternalId()));
-    super#addChild(child);
-  };
-  pub! removeChild = child => {
-    queueUpdate(RemoveChild(super#getInternalId(), child#getInternalId()));
-    super#removeChild(child);
-  };
-  pub! setText = text => {
-    queueUpdate(SetText(super#getInternalId(), text));
-  };
-  initializer {
-    queueUpdate(NewNode(super#getInternalId(), Text));
-    queueUpdate(SetText(super#getInternalId(), text));
-  };
-};
-
-class proxyImageNode (src) = {
-  as _this;
-  inherit (class imageNode)(src) as super;
-  pub! setStyle = style => {
-    queueUpdate(SetStyle(super#getInternalId(), style));
-  };
-  pub! addChild = child => {
-    queueUpdate(AddChild(super#getInternalId(), child#getInternalId()));
-    super#addChild(child);
-  };
-  pub! removeChild = child => {
-    queueUpdate(RemoveChild(super#getInternalId(), child#getInternalId()));
-    super#removeChild(child);
-  };
-  pub! setSrc = src => {
-    queueUpdate(SetImageSrc(super#getInternalId(), src));
-    super#setSrc(src);
-  };
-  initializer {
-    queueUpdate(NewNode(super#getInternalId(), Image));
-    queueUpdate(SetImageSrc(super#getInternalId(), src));
-  };
-};
-
-let rootNode = (new proxyViewNode)();
-queueUpdate(RootNode(rootNode#getInternalId()));
-let container = ref(Container.create(rootNode));
-
-let idToNode: Hashtbl.t(int, viewNode) = Hashtbl.create(100);
-
-let registerNode = node => {
-  Hashtbl.add(idToNode, node#getInternalId(), Obj.magic(node));
-};
-registerNode(rootNode);
-
-let getNodeById = id => {
-  switch (Hashtbl.find_opt(idToNode, id)) {
-  | Some(v) => v
-  | None => failwith("Unable to find node with id: " ++ string_of_int(id))
-  };
-};
-
-let proxyNodeFactory: nodeFactory = {
-  createViewNode: () => {
-    let ret = (new proxyViewNode)();
-    registerNode(ret);
-    ret;
-  },
-  createTextNode: text => {
-    let ret = (new proxyTextNode)(text);
-    registerNode(ret);
-    ret;
-  },
-  createImageNode: src => {
-    let ret = (new proxyImageNode)(src);
-    registerNode(ret);
-    ret;
-  },
-};
-
-setNodeFactory(proxyNodeFactory);
+let container = ref(Container.create(NodeProxies.rootNode));
+let rootNode = NodeProxies.rootNode;
 
 let sendMessage = msg => {
   Worker.post_message(msg);
@@ -141,10 +35,10 @@ let render = () => {
   );
 
   log("Trying to post...");
-  let updatesToSend = _pendingUpdates^ |> List.rev;
+  let updatesToSend = NodeProxies.getUpdates();
   sendMessage(Protocol.ToRenderer.Updates(updatesToSend));
   log("Posted!" ++ string_of_int(List.length(updatesToSend)));
-  clearUpdates();
+  NodeProxies.clearUpdates();
 };
 
 let dirty = ref(true);
@@ -180,7 +74,7 @@ let start = exec => {
         log("Applying measurement for node: " ++ string_of_int(nodeId));
         let measurements = measurement.dimensions;
 
-        let node = getNodeById(nodeId);
+        let node = ProxyNodeFactory.getNodeById(nodeId);
         log("forcing measurement");
         node#forceMeasurements(measurements);
         log("forcing measurement done");
