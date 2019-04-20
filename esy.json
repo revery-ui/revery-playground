@@ -22,7 +22,7 @@
     "@opam/js_of_ocaml-lwt": "*",
     "@opam/js_of_ocaml-ppx": "*",
     "@opam/js_of_ocaml-toplevel": "*",
-    "revery": "^0.13.0"
+    "revery": "^0.18.0"
   },
   "resolutions": {
     "rebez": "github:jchavarri/rebez#46cbc183",
@@ -33,8 +33,7 @@
     "@opam/js_of_ocaml-compiler": "github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f",
     "@opam/js_of_ocaml-ppx": "github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f",
     "@opam/js_of_ocaml-toplevel": "github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f",
-    "@brisk/brisk-reconciler": "github:briskml/brisk-reconciler#daa00be",
-    "revery": "github:revery-ui/revery#bedbcbb"
+    "@brisk/brisk-reconciler": "github:briskml/brisk-reconciler#daa00be"
   },
   "peerDependencies": {
     "ocaml": "^4.7.0"

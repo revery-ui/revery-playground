@@ -5,13 +5,13 @@
  (link_flags (:standard -linkall))
  (preprocess (pps js_of_ocaml-ppx))
  (libraries 
-  bigarray js_of_ocaml js_of_ocaml-compiler js_of_ocaml-toplevel compiler-libs Revery_Core Revery playground.lib reason)
+  bigarray js_of_ocaml js_of_ocaml-compiler js_of_ocaml-toplevel compiler-libs Revery playground.lib reason)
  )
 
     (rule
      (targets export.txt)
      (deps Revery_worker.bc)
-     (action (run jsoo_listunits -o %{targets} stdlib bigarray brisk-reconciler reglm Revery_Core Revery_Draw Revery_Math Revery_Native Revery_UI Revery_UI_Components Revery playground.lib)))
+     (action (run jsoo_listunits -o %{targets} stdlib bigarray brisk-reconciler reglm Revery playground.lib)))
 
     (rule
      (targets Revery_worker.js)
@@ -30,7 +30,6 @@
        %{lib:reglfw:gl_stubs.js}
        %{lib:reglfw:image_stubs.js}
        %{lib:reglfw:stb_image_stubs.js}
-       %{lib:Revery_Core:file.js}
        %{dep:Revery_worker.bc}
        -o %{targets}
       )))

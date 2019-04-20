@@ -82,11 +82,11 @@ let visitUpdate = u =>
     parentNode#removeChild(childNode);
   | SetText(id, text) =>
     let textNode = Obj.magic(nodeFromId(id));
-    textNode#setText(text);
+    let () = textNode#setText(text);
   | SetImageSrc(id, src) =>
     let imageNode = Obj.magic(nodeFromId(id));
     print_endline("Renderer: setting src: " ++ src);
-    imageNode#setSrc(src);
+    let () = imageNode#setSrc(src);
   | _ => ()
   };
 
@@ -176,7 +176,7 @@ let start = (onCompiling, onReady, onOutput) => {
       App.createWindow(
         app,
         "Welcome to Revery",
-        ~createOptions={...Window.defaultCreateOptions, maximized: true},
+        ~createOptions={WindowCreateOptions.create(~maximized=true, ())},
       );
 
     let _ =
