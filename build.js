@@ -75,6 +75,12 @@ let replace = (str, val, newVal) => {
     return str.split(val).join(newVal);
 };
 
+const filesToCopyToRoot = [
+    "index.html",
+    "index.css",
+    "revery-logo.png"
+]
+
 let artifactFolder = getBuildArtifactFolder();
 
 console.log("Artifact folder: " + artifactFolder);
@@ -82,6 +88,11 @@ console.log("Artifact folder: " + artifactFolder);
 console.log(`Copying sources from ${playgroundSources} to ${playgroundBuild}...`);
 fs.copySync(playgroundSources, playgroundBuild);
 console.log("Sources copied.");
+
+console.log(`Copying index.html / index.css to root...`);
+filesToCopyToRoot.forEach((f) => {
+    fs.copySync(path.join(artifactFolder, f), path.join(playgroundBuild, f));
+});
 
 console.log(`Copying examples from ${reveryExampleSources} to ${playgroundExampleSources}...`);
 fs.copySync(reveryExampleSources, playgroundExampleSources);
