@@ -40,6 +40,10 @@ let getReveryRoot = () => {
     return cp.spawnSync(esyPath, ["b", "echo", "#{revery.root}"], { cwd: playgroundRoot }).stdout.toString("utf8").trim();
 };
 
+let convertSyntax = (filePath) => {
+    return cp.spawnSync(esyPath, ["refmt", "--in-place", "--parse=re", "--print=ml", filePath]);
+}
+
 let reveryRoot = getReveryRoot();
 console.log ("Revery root: " + reveryRoot);
 let reveryExampleSources = path.join(reveryRoot, "examples");
@@ -78,8 +82,17 @@ let replace = (str, val, newVal) => {
 const filesToCopyToRoot = [
     "index.html",
     "index.css",
-    "revery-logo.png"
-]
+    "revery-logo.png",
+    "dark-logo-transparent.png"
+];
+
+const examplesToCopy = [
+    "Hello",
+    "Calculator",
+    "HoverExample",
+    "BoxShadow",
+    "Flexbox"
+];
 
 let artifactFolder = getBuildArtifactFolder();
 
@@ -95,7 +108,14 @@ filesToCopyToRoot.forEach((f) => {
 });
 
 console.log(`Copying examples from ${reveryExampleSources} to ${playgroundExampleSources}...`);
-fs.copySync(reveryExampleSources, playgroundExampleSources);
+
+examplesToCopy.forEach((f) => {
+    let reFile = path.join(playgroundExampleSources, f + ".re");
+    let mlFile = path.join(playgroundExampleSources, f + ".ml");
+    fs.copySync(path.join(reveryExampleSources, f + ".re"), reFile);
+    fs.copySync(path.join(reveryExampleSources, f + ".re"), mlFile);
+    convertSyntax(mlFile);
+});
 console.log("Examples copied.");
 
 console.log("Copying artifacts...");

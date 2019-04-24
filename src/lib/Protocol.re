@@ -8,6 +8,12 @@ open Js_of_ocaml;
 
 open Types;
 
+module Syntax = {
+  type t =
+    | RE
+    | ML;
+};
+
 module ToWorker = {
   type nodeMeasurement = {
     id: int,
@@ -18,7 +24,8 @@ module ToWorker = {
     | SourceCodeUpdated(Js.t(Js.js_string))
     | Measurements(list(nodeMeasurement))
     | KeyboardEvent(Revery_Core.Events.internalKeyboardEvent)
-    | MouseEvent(Revery_Core.Events.internalMouseEvents);
+    | MouseEvent(Revery_Core.Events.internalMouseEvents)
+    | SetSyntax(Syntax.t);
 };
 
 module ToRenderer = {
@@ -27,5 +34,6 @@ module ToRenderer = {
     | Compiling
     | Output(Js.t(Js.Unsafe.any))
     | SourceCodeCompiled(result(unit, unit))
-    | Updates(list(Types.updates));
+    | Updates(list(Types.updates))
+    | SyntaxChanged(Js.t(Js.js_string));
 };

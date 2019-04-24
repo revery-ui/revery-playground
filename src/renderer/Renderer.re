@@ -1,5 +1,3 @@
-/* print_endline ("Hello, world"); */
-
 open Revery;
 open Revery.Draw;
 open Revery.Math;
@@ -82,11 +80,13 @@ let visitUpdate = u =>
     parentNode#removeChild(childNode);
   | SetText(id, text) =>
     let textNode = Obj.magic(nodeFromId(id));
-    let () = textNode#setText(text);
+    let _ = textNode#setText(text);
+    ();
   | SetImageSrc(id, src) =>
     let imageNode = Obj.magic(nodeFromId(id));
     print_endline("Renderer: setting src: " ++ src);
-    let () = imageNode#setSrc(src);
+    let _ = imageNode#setSrc(src);
+    ();
   | _ => ()
   };
 
@@ -99,7 +99,7 @@ let update = (v: list(updates)) => {
   );
 };
 
-let start = (onCompiling, onReady, onOutput) => {
+let start = (onCompiling, onReady, onOutput, onSyntaxChanged) => {
   let isWorkerReady = ref(false);
   let latestSourceCode: ref(option(Js.t(Js.js_string))) = ref(None);
 
@@ -114,6 +114,16 @@ let start = (onCompiling, onReady, onOutput) => {
     };
 
     latestSourceCode := None;
+  };
+
+  let setSyntax = (v: Js.t(Js.js_string)) => {
+    let str = Js.to_string(v) |> String.lowercase;
+    switch (str) {
+    | "ml" =>
+      worker##postMessage(Protocol.ToWorker.SetSyntax(Protocol.Syntax.ML))
+    | "re" =>
+      worker##postMessage(Protocol.ToWorker.SetSyntax(Protocol.Syntax.RE))
+    };
   };
 
   let sendMeasurements = () => {
@@ -153,6 +163,9 @@ let start = (onCompiling, onReady, onOutput) => {
       print_endline("Ready called!");
       sendLatestSource();
       print_endline("Send latest source called!");
+    | SyntaxChanged(newCode) =>
+      let _ = Js.Unsafe.fun_call(onSyntaxChanged, [|Obj.magic(newCode)|]);
+      ();
     | _ => ()
     };
   };
@@ -176,7 +189,9 @@ let start = (onCompiling, onReady, onOutput) => {
       App.createWindow(
         app,
         "Welcome to Revery",
-        ~createOptions={WindowCreateOptions.create(~maximized=true, ())},
+        ~createOptions={
+          WindowCreateOptions.create(~maximized=true, ());
+        },
       );
 
     let _ =
@@ -293,7 +308,7 @@ let start = (onCompiling, onReady, onOutput) => {
 
   App.start(init);
 
-  ret;
+  Js.array([|ret, setSyntax|]);
 };
 
 let () = Js.export_all([%js {val startRenderer = start}]);

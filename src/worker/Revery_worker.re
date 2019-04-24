@@ -7,7 +7,7 @@ open Worker;
 let log = v => print_endline("[Worker] " ++ v);
 
 let start = () => {
-  Playground.reasonSyntax();
+  Syntax.reason();
   JsooTop.initialize();
 
   let render = Backend.start(execute2);

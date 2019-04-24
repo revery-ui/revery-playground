@@ -18,7 +18,8 @@
   window.__revery_editor_set = (t) => window.__revery_latest_sources;
 
   let fetchLatestSources = (sourceFile) => {
-      fetch("sources/" + sourceFile)
+	  let ext = "." + document.getElementById("syntax-picker").value;
+      fetch("sources/" + sourceFile + ext)
           .then((response) => {
               response.text().then((t) => {
                   window.__revery_latest_sources = t;
@@ -38,16 +39,22 @@
 													<!-- <option value="AnalogClock.re">AnalogClock</option> -->
                 <!-- <option value="Border.re">Border</option> -->
                 <!-- <option value="CheckboxExample.re">Checkbox</option> -->
-                <option value="Hello.re" selected>Hello</option>
-                <option value="Calculator.re">Calculator</option>
-                <option value="HoverExample.re">Hover</option>
+                <option value="Hello" selected>Hello</option>
+                <option value="Calculator">Calculator</option>
+                <option value="HoverExample">Hover</option>
                 <!-- <option value="InputExample.re">Input</option> -->
-                <option value="Boxshadow.re">Boxshadow</option>
-				<option value="Flexbox.re">Flexbox</option>
+                <option value="Boxshadow">Boxshadow</option>
+                <option value="Flexbox">Flexbox</option>
                 <!-- <option value="Stopwatch.re">Stopwatch</option> -->
                 <!-- <option value="TextExample.re" selected>TextExample</option> -->
             </select>
         </div>
+		<div>
+			<select id="syntax-picker">
+                <option value="re" selected>RE</option>
+                <option value="ml">ML</option>
+			</select>
+		</div>
     </div>
     <div class="center">
         <a href="https://www.outrunlabs.com/revery" alt="Revery"><img src="./dark-logo-transparent.png" title="Revery Logo" style="width: 96px;" /></a>
@@ -84,13 +91,19 @@
         theme: 'vs-dark',
         readOnly: false,
 	});
+    let iframe = document.getElementById("example_frame");
+
+let sendMessage = (type, payload) => iframe.contentWindow.postMessage({ type: type, payload: payload });
+
 
 document.getElementById("example-picker").addEventListener("change", (v) => {
-    <!-- alert( document.getElementById("example-picker").value); -->
+
     fetchLatestSources(document.getElementById("example-picker").value);
 });
 
-    let iframe = document.getElementById("example_frame");
+document.getElementById("syntax-picker").addEventListener("change", (v) => {
+    sendMessage("editor.setSyntax", document.getElementById("syntax-picker").value);  
+});
 
 // Credit David Walsh (https://davidwalsh.name/javascript-debounce-function)
 
@@ -141,8 +154,8 @@ function debounce(func, wait, immediate) {
 
     let debouncedUpdate = debounce(() => {
         console.log("[index] Sending code update");
-    let allLines = editor.getModel().getLinesContent().join("\n");
-    iframe.contentWindow.postMessage({ type: "editor.update", payload: allLines });
+        let allLines = editor.getModel().getLinesContent().join("\n");
+        sendMessage("editor.update", allLines);
     }, 250, false);
 
     editor.onDidChangeModelContent((e) => {
@@ -192,10 +205,12 @@ function debounce(func, wait, immediate) {
       let data = evt.data;
       if (data && data.type == "example.switch") {
           fetchLatestSources(data.payload);
+      } else if (data && data.type == "syntax.change") {
+          window.__revery_editor_set(data.code);
       }
   }, false);
 
-  fetchLatestSources("Hello.re");
+  fetchLatestSources("Hello");
 
 window.__revery_editor_set = (t) => {
     editor.setValue(t);
