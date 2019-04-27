@@ -15,10 +15,12 @@ let nodeModulesDest = path.join(playgroundBuild, "monaco-editor");
 let playgroundExampleSources = path.join(playgroundBuild, "sources");
 let playgroundExampleHost = path.join(playgroundBuild, "host");
 
+let whereOrWhich = process.platform === "win32" ? "where " : "which ";
+
 let getEsyPath = () => {
     let result
     try {
-        result = cp.execSync("where esy");
+        result = cp.execSync(whereOrWhich + "esy");
     } catch (error) {
         // some operating systems (unix) use `which` instead of `where`.
         if (error.toString().indexOf('not found') != -1) {
@@ -98,22 +100,40 @@ let artifactFolder = getBuildArtifactFolder();
 
 console.log("Artifact folder: " + artifactFolder);
 
-console.log(`Copying sources from ${playgroundSources} to ${playgroundBuild}...`);
-fs.copySync(playgroundSources, playgroundBuild);
-console.log("Sources copied.");
+const copyFileSync = (src, dest) => {
+    console.log(`Copying file: ${src} -> ${dest}`);
+    let contents = fs.readFileSync(src);
+    fs.createFileSync(dest);
+    fs.writeFileSync(dest, contents);
+};
+
+const copyFolderSync = (src, dest) => {
+    let files = fs.readdirSync(src)
+    .filter((file) => {
+       const f = path.join(src, file);
+       return !fs.statSync(f).isDirectory()
+    });
+
+    files.forEach((f) => {
+        copyFileSync(path.join(src, f), path.join(dest, f));
+    });
+}
 
 console.log(`Copying index.html / index.css to root...`);
 filesToCopyToRoot.forEach((f) => {
-    fs.copySync(path.join(artifactFolder, f), path.join(playgroundBuild, f));
+    const src = path.join(artifactFolder, f);
+    const dest = path.join(playgroundBuild, f);
+    copyFileSync(src, dest);
 });
 
 console.log(`Copying examples from ${reveryExampleSources} to ${playgroundExampleSources}...`);
 
 examplesToCopy.forEach((f) => {
+    let srcFile = path.join(reveryExampleSources, f + ".re");
     let reFile = path.join(playgroundExampleSources, f + ".re");
     let mlFile = path.join(playgroundExampleSources, f + ".ml");
-    fs.copySync(path.join(reveryExampleSources, f + ".re"), reFile);
-    fs.copySync(path.join(reveryExampleSources, f + ".re"), mlFile);
+    copyFileSync(srcFile, reFile);
+    copyFileSync(srcFile, mlFile);
     convertSyntax(mlFile);
 });
 console.log("Examples copied.");
@@ -121,7 +141,7 @@ console.log("Examples copied.");
 console.log("Copying artifacts...");
 // Remove destination to prevent a 'Source and destination must not be the same' error when re-building
 fs.removeSync(playgroundExampleHost);
-fs.copySync(artifactFolder, playgroundExampleHost);
+copyFolderSync(artifactFolder, playgroundExampleHost);
 console.log("Artifacts copied.");
 
 console.log("Copying node_modules...");

@@ -1,7 +1,8 @@
 (executable
  (name Revery_worker)
  (modules Revery_worker refmtJsApi Playground Backend Syntax reason_util)
- (flags :standard -safe-string -rectypes)
+ (flags :standard -safe-string -rectypes -custom)
+ (modes byte)
  (link_flags (:standard -linkall))
  (preprocess (pps js_of_ocaml-ppx))
  (libraries 
