@@ -21,15 +21,8 @@ module Stdout = {
   let stop = () => "";
 };
 
-let execute = code => {
+let execute = (~send, ~complete, code) => {
   let code = code ++ postfix();
-  let send = r => print_endline("RESULT: " ++ Core.Evaluate.show_result(r));
-  let complete = eval =>
-    switch (eval) {
-    | Core.Evaluate.EvalSuccess => print_endline("complete: success")
-    | Core.Evaluate.EvalError => print_endline("complete: error")
-    | Core.Evaluate.EvalInterupted => print_endline("complete: interrupted")
-    };
 
   Repl.Evaluate.eval(~send, ~complete, ~readStdout=(module Stdout), code);
 

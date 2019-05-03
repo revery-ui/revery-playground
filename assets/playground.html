@@ -24,28 +24,18 @@
     </div>
 </div>
 
-<div id="error-container">
-    <div id="error-text" />
-</div>
-
-
 </body>
 <script src="Renderer.bc.js"></script>
     <script>
-//       var worker = new Worker("./worker.js");
-/*
-       worker.addEventListener("message", (msg) => {
-            console.log("GOT MESSAGE: " + JSON.stringify(msg.data)); 
-             updateRenderer(msg.data);
-       });
-       */
 
     let clearErrors = () => {
-        let errorContainer = document.getElementById("error-container");
-        errorContainer.classList.remove("errors");
+        window.parent.postMessage({
+            type: "errors.clear", 
+        });
     };
 
     let onCompiling = () => {
+			clearErrors();
        var element = document.getElementById("loading-container");
         element.classList.add("loading");
     };
@@ -54,32 +44,17 @@
        document.getElementById("loading-container").classList.remove("loading");
     };
 
+    let onError = (err) => {
+					console.log("GOT ERROR: " + JSON.stringify(err));
+        window.parent.postMessage({
+            type: "errors.append", 
+									payload: [err],
+        });
+				};
+
     let onOutput = (e) => {
-        let errorContainer = document.getElementById("error-container");
-           if (e.stderr && e.stderr.length > 1) {
-
-            let errorText = document.getElementById("error-text");
-            errorContainer.classList.add("errors");
-
-            let errors = e.stderr.split("\n").map((s) => s.trim());
-            errorText.innerHTML = "";
-
-               let elements = errors.map((errorText) => {
-                   let elem = document.createElement("p");
-                   elem.textContent = errorText;
-                   return elem;
-               });
-
-               elements.forEach((elem) => errorText.appendChild(elem));
-
-            //window.parent.postMessage({
-            //    type: "compile.errors", 
-            //    errors: e.stderr,
-            //});
-        } else {
-            clearErrors();
-        }
     };
+
 
     let onSyntaxChanged = (newCode) => {
         window.parent.postMessage({
@@ -88,7 +63,7 @@
         });
     };
 
-       let [updateCode, setSyntax] = startRenderer(onCompiling, onRender, onOutput, onSyntaxChanged);
+       let [updateCode, setSyntax] = startRenderer(onCompiling, onRender, onOutput, onSyntaxChanged, onError);
 
 
         window.addEventListener("message", (msg) => {

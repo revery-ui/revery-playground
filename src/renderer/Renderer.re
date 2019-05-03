@@ -99,7 +99,7 @@ let update = (v: list(updates)) => {
   );
 };
 
-let start = (onCompiling, onReady, onOutput, onSyntaxChanged) => {
+let start = (onCompiling, onReady, onOutput, onSyntaxChanged, onError) => {
   let isWorkerReady = ref(false);
   let latestSourceCode: ref(option(Js.t(Js.js_string))) = ref(None);
 
@@ -151,6 +151,28 @@ let start = (onCompiling, onReady, onOutput, onSyntaxChanged) => {
     | Output(v) =>
       let _ = Js.Unsafe.fun_call(onOutput, [|Obj.magic(v)|]);
       ();
+    | PhraseResult(v) =>
+      switch (v) {
+      | Directive(_) => () /* TODO: Not sure what this is? */
+      | Phrase({blockLoc, blockContent, blockStdout}) =>
+        switch (blockContent) {
+        | BlockSuccess(_) => ()
+        | BlockError({error, _}) =>
+          let jsError =
+            error
+            |> MonacoDiagnostics.errorToDiagnostic
+            |> MonacoDiagnostics.toJs;
+          Js.Unsafe.fun_call(onError, [|Obj.magic(jsError)|]);
+        }
+      }
+    | CompilationResult(v) =>
+      switch (v) {
+      | Core.Evaluate.EvalSuccess =>
+        prerr_endline("RENDERER: Compilation success")
+      | Core.Evaluate.EvalError => prerr_endline("Compilation error")
+      | Core.Evaluate.EvalInterupted =>
+        prerr_endline("Compilation interrupted")
+      }
     | Compiling =>
       isWorkerReady := false;
       print_endline("Compiling...");

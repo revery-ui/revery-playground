@@ -33,7 +33,8 @@ module ToRenderer = {
     | Ready
     | Compiling
     | Output(Js.t(Js.Unsafe.any))
-    | SourceCodeCompiled(result(unit, unit))
+    | PhraseResult(Core.Evaluate.result)
+    | CompilationResult(Core.Evaluate.evalResult)
     | Updates(list(Types.updates))
     | SyntaxChanged(Js.t(Js.js_string));
 };

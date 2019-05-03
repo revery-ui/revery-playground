@@ -163,7 +163,11 @@ let start = exec => {
       sendMessage(Protocol.ToRenderer.Compiling);
       let code = Js.to_string(v);
       latestCode := Some(code);
-      let output = Obj.magic(exec(code));
+      let send = r => sendMessage(Protocol.ToRenderer.PhraseResult(r));
+      let complete = r =>
+        sendMessage(Protocol.ToRenderer.CompilationResult(r));
+
+      let output = Obj.magic(exec(~send, ~complete, code));
       sendMessage(Protocol.ToRenderer.Output(output));
       sendMessage(Protocol.ToRenderer.Ready);
     | Measurements(v) =>
