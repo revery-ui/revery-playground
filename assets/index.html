@@ -93,7 +93,7 @@
 	});
     let iframe = document.getElementById("example_frame");
 
-let sendMessage = (type, payload) => iframe.contentWindow.postMessage({ type: type, payload: payload });
+let sendMessage = (type, payload) => iframe.contentWindow.postMessage({ type: type, payload: payload }, "*");
 
 
 document.getElementById("example-picker").addEventListener("change", (v) => {
