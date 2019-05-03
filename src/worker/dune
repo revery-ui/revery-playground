@@ -1,12 +1,12 @@
 (executable
  (name Revery_worker)
- (modules Revery_worker refmtJsApi Playground Backend Syntax reason_util)
+ (modules Revery_worker refmtJsApi Playground Backend reason_util)
  (flags :standard -safe-string -rectypes -custom)
  (modes byte)
  (link_flags (:standard -linkall))
  (preprocess (pps js_of_ocaml-ppx))
  (libraries 
-  bigarray js_of_ocaml js_of_ocaml-compiler js_of_ocaml-toplevel compiler-libs Revery playground.lib reason)
+  bigarray js_of_ocaml js_of_ocaml-compiler js_of_ocaml-toplevel compiler-libs Revery playground.lib reason sketch.core sketch.repl)
  )
 
     (rule

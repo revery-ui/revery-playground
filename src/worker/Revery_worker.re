@@ -7,10 +7,10 @@ open Worker;
 let log = v => print_endline("[Worker] " ++ v);
 
 let start = () => {
-  Syntax.reason();
+  Repl.SyntaxControl.re();
   JsooTop.initialize();
 
-  let render = Backend.start(execute2);
+  let render = Backend.start(execute);
   log("Initialized");
 
   let f = _ => {

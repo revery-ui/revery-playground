@@ -183,8 +183,8 @@ let start = exec => {
     | SetSyntax(v) =>
       print_endline("Got SetSyntax event!");
       switch (v) {
-      | ML => Syntax.ml()
-      | RE => Syntax.reason()
+      | ML => Repl.SyntaxControl.ml()
+      | RE => Repl.SyntaxControl.re()
       };
       switch (latestCode^, v) {
       | (Some(code), Protocol.Syntax.ML) =>
