@@ -34,9 +34,10 @@
     "@opam/js_of_ocaml-compiler": "github:revery-ui/js_of_ocaml:js_of_ocaml-compiler.opam#e09793f",
     "@opam/js_of_ocaml-ppx": "github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f",
     "@opam/js_of_ocaml-toplevel": "github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f",
-    "@brisk/brisk-reconciler": "github:briskml/brisk-reconciler#daa00be",
+    "@brisk/brisk-reconciler": "github:briskml/brisk-reconciler#223b879",
     "sketch": "github:thangngoc89/sketch-v2#4b5e625",
-    "@opam/ptime": "github:thangngoc89/ptime:opam#48e27db"
+    "@opam/ptime": "github:thangngoc89/ptime:opam#48e27db",
+    "revery": "github:revery-ui/revery#79d735d"
   },
   "peerDependencies": {
     "ocaml": "^4.7.0"
