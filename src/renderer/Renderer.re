@@ -99,7 +99,15 @@ let update = (v: list(updates)) => {
   );
 };
 
-let start = (onCompiling, onReady, onOutput, onSyntaxChanged, onError) => {
+let start =
+    (
+      onCompiling,
+      onReady,
+      onOutput,
+      onSyntaxChanged,
+      onError,
+      onCompilationResult,
+    ) => {
   let isWorkerReady = ref(false);
   let latestSourceCode: ref(option(Js.t(Js.js_string))) = ref(None);
 
@@ -123,6 +131,7 @@ let start = (onCompiling, onReady, onOutput, onSyntaxChanged, onError) => {
       worker##postMessage(Protocol.ToWorker.SetSyntax(Protocol.Syntax.ML))
     | "re" =>
       worker##postMessage(Protocol.ToWorker.SetSyntax(Protocol.Syntax.RE))
+    | _ => prerr_endline("setSyntax: Unknown syntax - " ++ str)
     };
   };
 
@@ -153,9 +162,10 @@ let start = (onCompiling, onReady, onOutput, onSyntaxChanged, onError) => {
       ();
     | PhraseResult(v) =>
       switch (v) {
-      | Directive(_) => () /* TODO: Not sure what this is? */
-      | Phrase({blockLoc, blockContent, blockStdout}) =>
+      | Directive(_) => ()
+      | Phrase({blockLoc, blockContent, _}) =>
         switch (blockContent) {
+        | BlockStart => ()
         | BlockSuccess(_) => ()
         | BlockError({error, _}) =>
           let jsError =
@@ -163,7 +173,19 @@ let start = (onCompiling, onReady, onOutput, onSyntaxChanged, onError) => {
             |> MonacoDiagnostics.errorToDiagnostic
             |> MonacoDiagnostics.toJs;
           Js.Unsafe.fun_call(onError, [|Obj.magic(jsError)|]);
-        }
+        };
+
+        switch (blockLoc) {
+        | None => ()
+        | Some(v) =>
+          open Core.Loc;
+          let startLine = v.locStart.line;
+          let endLine = v.locEnd.line;
+
+          let js =
+            PhraseCompilationResult.toJs(startLine, endLine, blockContent);
+          Js.Unsafe.fun_call(onCompilationResult, [|Obj.magic(js)|]);
+        };
       }
     | CompilationResult(v) =>
       switch (v) {

@@ -15,13 +15,18 @@
 
 
 <div class="root">
-</div>
 
 <div id="loading-container">
     <div class="loading-inner">
         <img src="revery-logo.png" />
         <p class="text">Compiling...</p>
     </div>
+</div>	
+
+<div id="error-container">	
+    <div id="error-text" />	
+</div>
+
 </div>
 
 </body>
@@ -29,6 +34,9 @@
     <script>
 
     let clearErrors = () => {
+        errors = [];
+        let errorContainer = document.getElementById("error-container");
+        errorContainer.classList.remove("errors");
         window.parent.postMessage({
             type: "errors.clear", 
         });
@@ -38,22 +46,47 @@
 			clearErrors();
        var element = document.getElementById("loading-container");
         element.classList.add("loading");
+
+		window.parent.postMessage({ type: "compileStatus.clear" });
     };
 
     let onRender = () => {
        document.getElementById("loading-container").classList.remove("loading");
     };
 
+    let errors = [];
+
+    let updateErrorUI = (errors) => {
+        let errorContainer = document.getElementById("error-container");   
+        errorContainer.innerHTML = "";
+
+        let errorElements = errors.map((e) => {
+            let span = document.createElement("p");
+            span.textContent = "Error " + e.startLineNumber + "," + e.startColumn + " - " + e.endLineNumber + "," + e.endColumn + ":" + e.message;
+            return span;
+        });
+        errorElements.forEach(e => errorContainer.appendChild(e));
+
+        if (errorElements.length >= 1) {
+           errorContainer.classList.add("errors"); 
+        }
+    };
+
     let onError = (err) => {
-					console.log("GOT ERROR: " + JSON.stringify(err));
+        errors.push(err);
+        updateErrorUI(errors);
         window.parent.postMessage({
             type: "errors.append", 
-									payload: [err],
+            payload: [err],
         });
-				};
+    };
 
     let onOutput = (e) => {
     };
+
+	let onCompilationResult = (r) => {
+		window.parent.postMessage({ type: "compileStatus.append", payload: r });
+	};
 
 
     let onSyntaxChanged = (newCode) => {
@@ -63,7 +96,7 @@
         });
     };
 
-       let [updateCode, setSyntax] = startRenderer(onCompiling, onRender, onOutput, onSyntaxChanged, onError);
+       let [updateCode, setSyntax] = startRenderer(onCompiling, onRender, onOutput, onSyntaxChanged, onError, onCompilationResult);
 
 
         window.addEventListener("message", (msg) => {

@@ -1,6 +1,6 @@
 (executable
  (name Renderer)
- (modules Renderer MonacoDiagnostics)
+ (modules Renderer MonacoDiagnostics PhraseCompilationResult)
  (preprocess (pps js_of_ocaml-ppx))
  (flags -custom)
  (modes byte)

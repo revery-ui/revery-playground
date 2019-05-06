@@ -21,6 +21,39 @@ body {
   right: 0;
 }
 
+#error-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 999;
+  background-color: red;
+  color: white;
+  opacity: 0;
+  font-family: "Roboto", sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: opacity 0.5s ease-in-out 0.25s;
+}
+
+#error-container.errors {
+  opacity: 0.9;
+}
+
+#error-text {
+  font-weight: bold;
+  position: absolute;
+  top: 3em;
+  bottom: 3em;
+  left: 0;
+  right: 0;
+}
+
 #loading-container {
   position: absolute;
   top: 0;
@@ -192,4 +225,22 @@ a:hover {
 .container {
   display: flex;
   flex-direction: row;
+}
+
+.line-decoration-compiling {
+  background: grey;
+  width: 3px !important;
+  margin-left: 4px;
+}
+
+.line-decoration-compiled {
+  background: rgba(16, 200, 226, 0.7);
+  width: 3px !important;
+  margin-left: 4px;
+}
+
+.line-decoration-error {
+  background: rgba(255, 0, 0, 0.7);
+  width: 3px !important;
+  margin-left: 4px;
 }

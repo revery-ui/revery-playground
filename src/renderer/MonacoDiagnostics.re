@@ -14,10 +14,10 @@ let errorToDiagnostic = (error: Core.Evaluate.error) => {
     | None => (1, 1, 0, 0)
     | Some(v) =>
       Core.Loc.(
-        v.loc_start.line + 1,
-        v.loc_end.line + 1,
-        v.loc_start.col + 1,
-        v.loc_end.col + 2,
+        v.locStart.line + 1,
+        v.locEnd.line + 1,
+        v.locStart.col + 1,
+        v.locEnd.col + 2,
       )
     };
 
@@ -35,6 +35,7 @@ let errorToDiagnostic = (error: Core.Evaluate.error) => {
 let ofBlockContent: Core.Evaluate.blockContent => option(t) =
   (r: Core.Evaluate.blockContent) => {
     switch (r) {
+    | BlockStart => None
     | BlockSuccess(_) => None
     | BlockError(v) =>
       let result: t = errorToDiagnostic(v.error);

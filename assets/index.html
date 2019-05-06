@@ -172,18 +172,46 @@ function debounce(func, wait, immediate) {
 	  markers = markers.concat(errors);
       monaco.editor.setModelMarkers(editor.getModel(), "revery", markers);
   };
+  
+  let lastDecorations = [];
+  let rowToDecoration = {};
+
+  let clearCompileStatus = () => {
+	editor.deltaDecorations(lastDecorations, []);
+	lastDecorations = [];
+	rowToDecoration = {};
+  };
+
+  let appendCompileStatus = (item) => {
+
+	let previousDecorations = [];
+	if (rowToDecoration[item.startLineNumber]) {
+		previousDecorations = [rowToDecoration[item.startLineNumber]];
+	}
+
+	let newDecoration = editor.deltaDecorations(previousDecorations, [{
+		range: new monaco.Range(item.startLineNumber, 1, item.endLineNumber, 1), options: { isWholeLine: true, linesDecorationsClassName: 'line-decoration-' + item.result },
+	}]);
+
+	rowToDecoration[item.startLineNumber] = newDecoration;
+	lastDecorations.push(newDecoration);
+  };
 
   window.addEventListener("message", (evt) => {
-      let data = evt.data;
-      if (data && data.type == "example.switch") {
-          fetchLatestSources(data.payload);
-      } else if (data && data.type == "syntax.change") {
-          window.__revery_editor_set(data.code);
-						} else if (data && data.type == "errors.clear") {
-							clearErrors();
-						} else if (data && data.type == "errors.append") {
-							appendErrors(data.payload);
-						}
+			let data = evt.data;
+			if (data && data.type == "example.switch") {
+				fetchLatestSources(data.payload);
+			} else if (data && data.type == "syntax.change") {
+				window.__revery_editor_set(data.code);
+			} else if (data && data.type == "errors.clear") {
+				clearErrors();
+			} else if (data && data.type == "errors.append") {
+				appendErrors(data.payload);
+			} else if (data && data.type == "compileStatus.clear") {
+				clearCompileStatus();
+			} else if (data && data.type == "compileStatus.append") {
+				appendCompileStatus(data.payload);
+			}
   }, false);
 
   fetchLatestSources("Hello");
