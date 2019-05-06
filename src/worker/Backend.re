@@ -8,11 +8,11 @@ open Js_of_ocaml;
 
 let log = v => print_endline("[Worker] " ++ v);
 
-let renderFunction =
-  ref(() =>
+let renderElement =
+  ref(
     <View
       style=Style.[backgroundColor(Colors.red), width(100), height(100)]
-    />
+    />,
   );
 
 let _pendingUpdates: ref(list(updates)) = ref([]);
@@ -98,6 +98,10 @@ let registerNode = node => {
 };
 registerNode(rootNode);
 
+let unregisterNode = id => {
+  Hashtbl.remove(idToNode, id);
+};
+
 let getNodeById = id => {
   switch (Hashtbl.find_opt(idToNode, id)) {
   | Some(v) => v
@@ -132,14 +136,23 @@ let sendMessage = msg => {
 let dirty = ref(false);
 
 let render = () => {
-  container := Container.update(container^, renderFunction^());
+  container := Container.update(container^, renderElement^);
   let updatesToSend = _pendingUpdates^ |> List.rev;
   sendMessage(Protocol.ToRenderer.Updates(updatesToSend));
   clearUpdates();
+
+  /* Unregister all the nodes that were removed */
+  let unregisterIfRemoved = update => {
+    switch (update) {
+    | RemoveChild(_, childId) => unregisterNode(childId)
+    | _ => ()
+    };
+  };
+
+  List.iter(unregisterIfRemoved, updatesToSend);
 };
 
 let onStale = () => {
-  log("onStale - re-rendering");
   dirty := true;
 };
 
@@ -148,9 +161,8 @@ let _ = Revery_Core.Event.subscribe(React.onStale, onStale);
 let latestCode = ref(None);
 
 let setRenderFunction = fn => {
-  renderFunction := fn;
+  renderElement := fn();
   dirty := true;
-  /* render(); */
 };
 
 let start = exec => {
