@@ -9,6 +9,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css">
 </head>
 <body style="margin: 0px;">
 
@@ -54,6 +55,8 @@
                 <option value="re" selected>RE</option>
                 <option value="ml">ML</option>
 			</select>
+      <span>ligature:</span>
+      <input id="toggle-ligature" type="checkbox" />
 		</div>
     </div>
     <div class="center">
@@ -102,7 +105,7 @@ document.getElementById("example-picker").addEventListener("change", (v) => {
 });
 
 document.getElementById("syntax-picker").addEventListener("change", (v) => {
-    sendMessage("editor.setSyntax", document.getElementById("syntax-picker").value);  
+    sendMessage("editor.setSyntax", document.getElementById("syntax-picker").value);
 });
 
 // Credit David Walsh (https://davidwalsh.name/javascript-debounce-function)
@@ -121,13 +124,13 @@ function debounce(func, wait, immediate) {
     // parameters passed to executedFunction
     var context = this;
     var args = arguments;
-	    
-    // The function to be called after 
+
+    // The function to be called after
     // the debounce time has elapsed
     var later = function() {
       // null timeout to indicate the debounce ended
       timeout = null;
-	    
+
       // Call function now if you did not on the leading end
       if (!immediate) func.apply(context, args);
     };
@@ -135,17 +138,17 @@ function debounce(func, wait, immediate) {
     // Determine if you should call the function
     // on the leading or trail end
     var callNow = immediate && !timeout;
-	
+
     // This will reset the waiting every function execution.
     // This is the step that prevents the function from
-    // being executed because it will never reach the 
-    // inside of the previous setTimeout  
+    // being executed because it will never reach the
+    // inside of the previous setTimeout
     clearTimeout(timeout);
-	
+
     // Restart the debounce waiting period.
     // setTimeout returns a truthy value (it differs in web vs node)
     timeout = setTimeout(later, wait);
-	
+
     // Call immediately if you're dong a leading
     // end execution
     if (callNow) func.apply(context, args);
@@ -172,7 +175,7 @@ function debounce(func, wait, immediate) {
 	  markers = markers.concat(errors);
       monaco.editor.setModelMarkers(editor.getModel(), "revery", markers);
   };
-  
+
   let lastDecorations = [];
   let rowToDecoration = {};
 
@@ -220,6 +223,18 @@ window.__revery_editor_set = (t) => {
     editor.setValue(t);
     editor.revealLine(1);
 };
+</script>
+<script>
+document.getElementById("toggle-ligature").addEventListener("click", function toggleLigature(chk) {
+    if (chk.target.checked)
+        editor.updateOptions({
+          fontFamily: "'Fira Code', monospace",
+        });
+    else
+        editor.updateOptions({
+          fontFamily: null,
+        });
+    });
 </script>
 
 </body>
