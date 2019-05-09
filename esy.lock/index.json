@@ -1,5 +1,5 @@
 {
-  "checksum": "523853991c2463d9bb65504d549681c3",
+  "checksum": "19e92ea79b9cff62b1b7fc9442ef9930",
   "root": "revery-playground@link-dev:./esy.json",
   "node": {
     "sketch@github:bryphe/sketch-v2#fbcc644@d41d8cd9": {
@@ -33,8 +33,7 @@
       "overrides": [],
       "dependencies": [
         "sketch@github:bryphe/sketch-v2#fbcc644@d41d8cd9",
-        "revery@github:revery-ui/revery#79d735d@d41d8cd9",
-        "ocaml@4.7.1004@d41d8cd9",
+        "revery@0.20.0@d41d8cd9", "ocaml@4.7.1004@d41d8cd9",
         "@opam/js_of_ocaml-toplevel@github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f@d41d8cd9",
         "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9",
         "@opam/js_of_ocaml-lwt@github:revery-ui/js_of_ocaml:js_of_ocaml-lwt.opam#e09793f@d41d8cd9",
@@ -47,13 +46,15 @@
         "@opam/dune@opam:1.7.3@72aad784"
       ]
     },
-    "revery@github:revery-ui/revery#79d735d@d41d8cd9": {
-      "id": "revery@github:revery-ui/revery#79d735d@d41d8cd9",
+    "revery@0.20.0@d41d8cd9": {
+      "id": "revery@0.20.0@d41d8cd9",
       "name": "revery",
-      "version": "github:revery-ui/revery#79d735d",
+      "version": "0.20.0",
       "source": {
         "type": "install",
-        "source": [ "github:revery-ui/revery#79d735d" ]
+        "source": [
+          "archive:https://registry.npmjs.org/revery/-/revery-0.20.0.tgz#sha1:c6984ce9b73f7a016e0a390f22347b56f25849e5"
+        ]
       },
       "overrides": [],
       "dependencies": [
@@ -69,7 +70,7 @@
         "@opam/js_of_ocaml@github:revery-ui/js_of_ocaml:js_of_ocaml.opam#e09793f@d41d8cd9",
         "@opam/color@opam:0.2.0@8ef09171",
         "@esy-ocaml/reason@3.4.0@d41d8cd9",
-        "@brisk/brisk-reconciler@github:briskml/brisk-reconciler#223b879@d41d8cd9"
+        "@brisk/brisk-reconciler@github:briskml/brisk-reconciler#dd933fc@d41d8cd9"
       ],
       "devDependencies": []
     },
@@ -1817,14 +1818,14 @@
       ],
       "devDependencies": []
     },
-    "@brisk/brisk-reconciler@github:briskml/brisk-reconciler#223b879@d41d8cd9": {
+    "@brisk/brisk-reconciler@github:briskml/brisk-reconciler#dd933fc@d41d8cd9": {
       "id":
-        "@brisk/brisk-reconciler@github:briskml/brisk-reconciler#223b879@d41d8cd9",
+        "@brisk/brisk-reconciler@github:briskml/brisk-reconciler#dd933fc@d41d8cd9",
       "name": "@brisk/brisk-reconciler",
-      "version": "github:briskml/brisk-reconciler#223b879",
+      "version": "github:briskml/brisk-reconciler#dd933fc",
       "source": {
         "type": "install",
-        "source": [ "github:briskml/brisk-reconciler#223b879" ]
+        "source": [ "github:briskml/brisk-reconciler#dd933fc" ]
       },
       "overrides": [],
       "dependencies": [
