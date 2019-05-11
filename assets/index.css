@@ -41,6 +41,11 @@ body {
   transition: opacity 0.5s ease-in-out 0.25s;
 }
 
+.ligature-option {
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
 #error-container.errors {
   opacity: 0.9;
 }
