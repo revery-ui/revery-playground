@@ -85,7 +85,8 @@ const filesToCopyToRoot = [
     "index.html",
     "index.css",
     "revery-logo.png",
-    "dark-logo-transparent.png"
+    "dark-logo-transparent.png",
+	"favicon.ico"
 ];
 
 const examplesToCopy = [

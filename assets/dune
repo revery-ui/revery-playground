@@ -1,4 +1,4 @@
 (install
     (section bin)
     (package playground)
-    (files index.html outrun-logo.png revery-logo.png index.css Roboto-Regular.ttf FontAwesome5FreeSolid.otf playground.html gl-matrix-min.js worker.js dark-logo-transparent.png))
+    (files favicon.ico index.html outrun-logo.png revery-logo.png index.css Roboto-Regular.ttf FontAwesome5FreeSolid.otf playground.html gl-matrix-min.js worker.js dark-logo-transparent.png))
