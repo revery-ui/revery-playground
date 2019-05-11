@@ -55,7 +55,9 @@
                 <option value="re" selected>RE</option>
                 <option value="ml">ML</option>
 			</select>
-      <span>ligature:</span>
+		</div>
+		<div class="ligature-option">
+      <span>ligatures:</span>
       <input id="toggle-ligature" type="checkbox" />
 		</div>
     </div>
@@ -93,6 +95,7 @@
 		language: 'rust',
         theme: 'vs-dark',
         readOnly: false,
+		fontFamily: "'Fira Code', monospace",
 	});
     let iframe = document.getElementById("example_frame");
 
@@ -226,13 +229,8 @@ window.__revery_editor_set = (t) => {
 </script>
 <script>
 document.getElementById("toggle-ligature").addEventListener("click", function toggleLigature(chk) {
-    if (chk.target.checked)
         editor.updateOptions({
-          fontFamily: "'Fira Code', monospace",
-        });
-    else
-        editor.updateOptions({
-          fontFamily: null,
+			fontLigatures: chk.target.checked,
         });
     });
 </script>
