@@ -192,8 +192,7 @@ let start =
       }
     | CompilationResult(v) =>
       switch (v) {
-      | Core.Evaluate.EvalSuccess =>
-        prerr_endline("RENDERER: Compilation success")
+      | Core.Evaluate.EvalSuccess => ()
       | Core.Evaluate.EvalError => prerr_endline("Compilation error")
       | Core.Evaluate.EvalInterupted =>
         prerr_endline("Compilation interrupted")
