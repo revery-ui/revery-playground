@@ -81,6 +81,10 @@ class proxyImageNode (src) = {
     queueUpdate(SetImageSrc(super#getInternalId(), src));
     super#setSrc(src);
   };
+  pub! setResizeMode = rm => {
+    queueUpdate(SetImageResizeMode(super#getInternalId(), rm));
+    super#setResizeMode(rm);
+  };
   initializer {
     queueUpdate(NewNode(super#getInternalId(), Image));
     queueUpdate(SetImageSrc(super#getInternalId(), src));

@@ -84,8 +84,11 @@ let visitUpdate = u =>
     ();
   | SetImageSrc(id, src) =>
     let imageNode = Obj.magic(nodeFromId(id));
-    print_endline("Renderer: setting src: " ++ src);
     let _ = imageNode#setSrc(src);
+    ();
+  | SetImageResizeMode(id, rm) =>
+    let imageNode = Obj.magic(nodeFromId(id));
+    let _ = imageNode#setResizeMode(rm);
     ();
   | _ => ()
   };

@@ -13,7 +13,8 @@ type updates =
   | AddChild(int, int)
   | RemoveChild(int, int)
   | SetText(int, string)
-  | SetImageSrc(int, string);
+  | SetImageSrc(int, string)
+  | SetImageResizeMode(int, ImageResizeMode.t);
 
 let show = (u: updates) => {
   switch (u) {
