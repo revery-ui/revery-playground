@@ -72,8 +72,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  transition: opacity 0.5s ease-in-out 0.25s;
 }
 
 #loading-container.loading {
@@ -86,6 +84,11 @@ body {
   width: 100%;
   opacity: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: opacity 0.3s ease-in-out 0.15s;
 }
 
 #loading-container.loading .loading-inner {
@@ -127,6 +130,29 @@ body {
 
 #loading-container.loading img {
   opacity: 1;
+}
+
+.progress-container {
+	margin: 1em;
+	width: 175px;
+	height: 4px;
+	background-color: rgba(0, 0, 0, 0.3);
+	position: relative;
+	opacity: 0;
+}
+
+.loading .progress-container {
+	opacity: 1;
+}
+
+#progress-bar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 0%;
+	background-color: rgba(16, 200, 226, 0.7);
+	transition: width 0.5s ease-in-out 0.1s;
 }
 
 .header,

@@ -20,6 +20,9 @@
     <div class="loading-inner">
         <img src="revery-logo.png" />
         <p class="text">Compiling...</p>
+	    <div class="progress-container">
+			<div id="progress-bar"></div>
+		</div>
     </div>
 </div>	
 
@@ -41,6 +44,8 @@
             type: "errors.clear", 
         });
     };
+
+    let totalLines = 1;
 
     let onCompiling = () => {
 			clearErrors();
@@ -84,8 +89,24 @@
     let onOutput = (e) => {
     };
 
+    let updateProgress = (line) => {
+			let currentCompilationLine = line;
+			let progress = (line / totalLines) * 100;
+
+			if (progress > 99) {
+				progress = 0;
+			}
+			document.getElementById("progress-bar").style.width = progress + "%";
+	};
+
 	let onCompilationResult = (r) => {
 		window.parent.postMessage({ type: "compileStatus.append", payload: r });
+
+		if (r.result == "compiled") {
+			updateProgress(r.endLineNumber);
+		} else if (r.result == "compiling") {
+			updateProgress((r.startLineNumber + r.endLineNumber) / 2);
+		};
 	};
 
 
@@ -101,10 +122,13 @@
 
         window.addEventListener("message", (msg) => {
             if (msg.data.type === "editor.update") {
-                console.log("Got code update!");
-                updateCode(msg.data.payload);
+				document.getElementById("progress-bar").style.width = "0%";
+				let code = msg.data.payload;
+				lines = code.split("\n").length;
+				totalLines = lines > 0 ? lines : 1;
+
+                updateCode(code);
             } else if (msg.data.type === "editor.setSyntax") {
-                console.log("Got editor.setSyntax message");
                 setSyntax(msg.data.payload);
             }
         });
