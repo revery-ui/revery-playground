@@ -83,6 +83,7 @@ let replace = (str, val, newVal) => {
 
 const filesToCopyToRoot = [
     "index.html",
+	"index.js",
     "index.css",
     "revery-logo.png",
     "dark-logo-transparent.png"
