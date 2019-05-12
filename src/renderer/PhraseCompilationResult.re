@@ -21,10 +21,18 @@ let toJs = (startLine, endLine, block: Core.Evaluate.blockContent) => {
     | BlockError(_) => error
     };
 
+  let content = switch(block) {
+  | BlockSuccess({ msg, _ }) => msg
+  | _ => ""
+  };
+
+  let contentJs = Js.string(content ++ "\n");
+
   %js
   {
     val startLineNumber = startLine + 1;
     val endLineNumber = endLine + 1;
-    val result = s
+    val result = s;
+	val content = contentJs;
   };
 };

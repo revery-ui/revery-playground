@@ -12,6 +12,37 @@ let fetchLatestSources = sourceFile => {
   });
 };
 
+let createCodeLensProvider = () => {
+  let emitter = new monaco.Emitter();
+
+  let _latestCodeLenses = [];
+
+  let update = items => {
+    _latestCodeLenses = items
+      .map(item => {
+        let title = item.command.title.split("\n")[0];
+        return {
+          ...item,
+          command: {
+            title: title
+          }
+        };
+      })
+      .filter(item => !!item.command.title);
+
+    emitter.fire(_latestCodeLenses);
+  };
+
+  let provider = {
+    provideCodeLenses: (model, token) => _latestCodeLenses,
+    resolveCodeLens: (model, codeLens, token) => codeLens,
+    onDidChange: emitter.event,
+    update: update
+  };
+
+  return provider;
+};
+
 var editor = monaco.editor.create(document.getElementById("code"), {
   value: window.__revery_latest_sources,
   language: "rust",
@@ -20,6 +51,10 @@ var editor = monaco.editor.create(document.getElementById("code"), {
   fontFamily: "'Fira Code', monospace",
   fontLigatures: false
 });
+
+let codeLensProvider = createCodeLensProvider();
+monaco.languages.registerCodeLensProvider("rust", codeLensProvider);
+
 let iframe = document.getElementById("example_frame");
 
 let sendMessage = (type, payload) =>
@@ -111,6 +146,7 @@ let appendErrors = errors => {
   monaco.editor.setModelMarkers(editor.getModel(), "revery", markers);
 };
 
+let lastCodeLenses = [];
 let lastDecorations = [];
 let rowToDecoration = {};
 
@@ -118,6 +154,9 @@ let clearCompileStatus = () => {
   editor.deltaDecorations(lastDecorations, []);
   lastDecorations = [];
   rowToDecoration = {};
+
+  lastCodeLenses = [];
+  codeLensProvider.update(lastCodeLenses);
 };
 
 let appendCompileStatus = item => {
@@ -135,6 +174,17 @@ let appendCompileStatus = item => {
       }
     }
   ]);
+
+  let newCodeLens = {
+    range: new monaco.Range(item.startLineNumber, 1, item.endLineNumber, 1),
+    id: lastCodeLenses.length.toString(),
+    command: {
+      title: item.content
+    }
+  };
+
+  lastCodeLenses.push(newCodeLens);
+  codeLensProvider.update(lastCodeLenses);
 
   rowToDecoration[item.startLineNumber] = newDecoration;
   lastDecorations.push(newDecoration);
