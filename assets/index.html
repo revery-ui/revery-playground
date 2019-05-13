@@ -11,6 +11,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tonsky/FiraCode@1.206/distr/fira_code.css">
+  <script src="host/gl-matrix-min.js"></script>
 </head>
 <body style="margin: 0px;">
 
@@ -65,6 +66,12 @@
     <div class="right"><span class="subtle"><a href="https://github.com/revery-ui/revery-playground/commit/{#LONG_COMMIT}">{#SHORT_COMMIT}</a><span></div>
 </div>
 </div>
+<div id="loading-container" class="dark loading">
+    <div class="loading-inner">
+        <img src="revery-logo.png" />
+        <p class="text">Initializing Playground...</p>
+    </div>
+</div>	
 
 
 <script>var require = { paths: { 'vs': 'monaco-editor/min/vs' } };</script>
@@ -73,6 +80,12 @@
 <script src="monaco-editor/min/vs/editor/editor.main.js"></script>
 
 <script src="index.js"></script>
+
+<script>
+startEditor(() => {
+	document.getElementById("loading-container").classList.remove("loading");
+});
+</script>
 
 </body>
 </html>

@@ -91,6 +91,15 @@ body {
   transition: opacity 0.3s ease-in-out 0.15s;
 }
 
+#loading-container.dark.loading {
+	background-color: rgba(10, 10, 10, 1.0);
+	opacity: 1;
+}
+
+#loading-container.dark {
+	opacity: 0;
+}
+
 #loading-container.loading .loading-inner {
   opacity: 1;
 }
