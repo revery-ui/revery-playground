@@ -8,6 +8,34 @@ const loadScript = (url, onComplete, onError) => {
   document.head.appendChild(scriptTag);
 };
 
+const getCachedCode = () => {
+  const defaultItem = {
+    syntax: "re",
+    exampleId: "Hello",
+    code: null
+  };
+  let cachedItem = localStorage.getItem("__revery_playground_cache");
+  try {
+    cachedItem = !!cachedItem ? JSON.parse(cachedItem) : defaultItem;
+  } catch (ex) {
+    console.warn(ex);
+    cachedItem = defaultItem;
+  }
+
+  return cachedItem;
+};
+
+const setCachedCode = (exampleId, syntax, code) => {
+  localStorage.setItem(
+    "__revery_playground_cache",
+    JSON.stringify({
+      exampleId: exampleId,
+      code: code,
+      syntax: syntax
+    })
+  );
+};
+
 const startEditor = onComplete => {
   let run = () => {
     // Create a setter that will be overridden once an editor is available
@@ -38,7 +66,13 @@ const startEditor = onComplete => {
       iframe.contentWindow.postMessage({ type: type, payload: payload }, "*");
 
     document.getElementById("example-picker").addEventListener("change", v => {
-      fetchLatestSources(document.getElementById("example-picker").value);
+      let example = document.getElementById("example-picker").value;
+      fetchLatestSources(example);
+      setCachedCode(
+        example,
+        document.getElementById("syntax-picker").value,
+        null
+      );
     });
 
     document.getElementById("syntax-picker").addEventListener("change", v => {
@@ -103,6 +137,11 @@ const startEditor = onComplete => {
           .getLinesContent()
           .join("\n");
         sendMessage("editor.update", allLines);
+        setCachedCode(
+          document.getElementById("example-picker").value,
+          document.getElementById("syntax-picker").value,
+          allLines
+        );
       },
       250,
       false
@@ -178,12 +217,25 @@ const startEditor = onComplete => {
       false
     );
 
-    fetchLatestSources("Hello");
+    let cacheInfo = getCachedCode();
+    document.getElementById("example-picker").value = cacheInfo.exampleId;
 
     window.__revery_editor_set = t => {
       editor.setValue(t);
       editor.revealLine(1);
     };
+
+    if (cacheInfo.syntax) {
+      sendMessage("editor.setSyntax", cacheInfo.syntax);
+      document.getElementById("syntax-picker").value = cacheInfo.syntax;
+    }
+
+    if (!cacheInfo.code) {
+      fetchLatestSources("Hello");
+    } else {
+      window.__revery_latest_sources = cacheInfo.code;
+      window.__revery_editor_set(cacheInfo.code);
+    }
 
     document
       .getElementById("toggle-ligature")
