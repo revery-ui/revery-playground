@@ -231,8 +231,8 @@ const startEditor = onComplete => {
       let latestLine = item.endLineNumber;
 
       let content = item.content.trim();
-	  content = content.split("\n")[0];
-	  content = content.split("|")[0];
+      content = content.split("\n")[0];
+      content = content.split("|")[0];
 
       if (content && content.indexOf("- : unit = ()") < 0) {
         let newCodeLens = {
