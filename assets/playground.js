@@ -9,7 +9,7 @@ let clearErrors = () => {
 
 let totalLines = 1;
 
-let onCompiling = () => {
+let onCompiling = (evalId) => {
   clearErrors();
   var element = document.getElementById("loading-container");
   element.classList.add("loading");

@@ -175,8 +175,8 @@ let start = exec => {
   Worker.set_onmessage((updates: Protocol.ToWorker.t) =>
     switch (updates) {
     | SourceCodeUpdated(v) =>
-      log("got source code update");
-      sendMessage(Protocol.ToRenderer.Compiling);
+      let evalId = Repl.Evaluate.getNextEvalId();
+      sendMessage(Protocol.ToRenderer.Compiling(evalId));
       let code = Js.to_string(v);
       latestCode := Some(code);
       let send = r => sendMessage(Protocol.ToRenderer.PhraseResult(r));
@@ -201,7 +201,6 @@ let start = exec => {
     | MouseEvent(me) => Revery_UI.Mouse.dispatch(mouseCursor, me, rootNode)
     | KeyboardEvent(ke) => Revery_UI.Keyboard.dispatch(ke)
     | SetSyntax(v) =>
-      print_endline("Got SetSyntax event!");
       switch (v) {
       | ML => Repl.SyntaxControl.ml()
       | RE => Repl.SyntaxControl.re()

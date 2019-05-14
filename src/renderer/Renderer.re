@@ -6,6 +6,9 @@ open Js_of_ocaml;
 open PlaygroundLib;
 open PlaygroundLib.Types;
 
+let log = msg => print_endline("[Compiler] " ++ msg);
+let error = msg => prerr_endline("[Compiler] " ++ msg);
+
 let rootNode: ref(option(viewNode)) = ref(None);
 
 let createNode = nodeType =>
@@ -94,12 +97,8 @@ let visitUpdate = u =>
   };
 
 let update = (v: list(updates)) => {
-  /* print_endline("Got updates: "); */
   /* Types.showAll(v); */
-  List.iter(
-    visitUpdate,
-    v,
-  );
+  List.iter(visitUpdate, v);
 };
 
 let start =
@@ -166,7 +165,7 @@ let start =
     | PhraseResult(v) =>
       switch (v) {
       | Directive(_) => ()
-      | Phrase({blockLoc, blockContent, _}) =>
+      | Phrase({blockLoc, blockContent, evalId}) =>
         switch (blockContent) {
         | BlockStart => ()
         | BlockSuccess(_) => ()
@@ -186,21 +185,27 @@ let start =
           let endLine = v.locEnd.line;
 
           let js =
-            PhraseCompilationResult.toJs(startLine, endLine, blockContent);
+            PhraseCompilationResult.toJs(
+              evalId,
+              startLine,
+              endLine,
+              blockContent,
+            );
           Js.Unsafe.fun_call(onCompilationResult, [|Obj.magic(js)|]);
         };
       }
     | CompilationResult(v) =>
       switch (v) {
-      | Core.Evaluate.EvalSuccess => ()
-      | Core.Evaluate.EvalError => prerr_endline("Compilation error")
-      | Core.Evaluate.EvalInterupted =>
-        prerr_endline("Compilation interrupted")
+      | Core.Evaluate.EvalSuccess(evalId) =>
+        log("Compilation success: " ++ string_of_int(evalId))
+      | Core.Evaluate.EvalError(evalId) =>
+        error("Compilation error: " ++ string_of_int(evalId))
+      | Core.Evaluate.EvalInterupted(_) => error("Compilation interrupted")
       }
-    | Compiling =>
+    | Compiling(evalId) =>
       isWorkerReady := false;
-      print_endline("Compiling...");
-      let _ = Js.Unsafe.fun_call(onCompiling, [||]);
+      log("Compiling: " ++ string_of_int(evalId));
+      let _ = Js.Unsafe.fun_call(onCompiling, [|Obj.magic(evalId)|]);
       ();
     | Ready =>
       isWorkerReady := true;
