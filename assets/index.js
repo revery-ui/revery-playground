@@ -228,25 +228,33 @@ const startEditor = onComplete => {
         }
       ]);
 
-	  let latestLine = item.endLineNumber;
+      let latestLine = item.endLineNumber;
 
-	  let content = item.content.trim();
+      let content = item.content.trim();
 
-	  if (content) {
-      let newCodeLens = {
-        range: new monaco.Range(item.startLineNumber, 1, item.endLineNumber, 1),
-        id: lastCodeLenses.length.toString(),
-        command: {
-          title: content
-        },
-		__evalId: item.evalId,
-      };
+      if (content) {
+        let newCodeLens = {
+          range: new monaco.Range(
+            item.startLineNumber,
+            1,
+            item.endLineNumber,
+            1
+          ),
+          id: lastCodeLenses.length.toString(),
+          command: {
+            title: content
+          },
+          __evalId: item.evalId
+        };
 
-      lastCodeLenses.push(newCodeLens);
-	  }
-	  lastCodeLenses = lastCodeLenses.filter((v) => {
-		return v.__evalId === item.evalId || v.range.startLineNumber >= item.endLineNumber;
-	  });
+        lastCodeLenses.push(newCodeLens);
+      }
+      lastCodeLenses = lastCodeLenses.filter(v => {
+        return (
+          v.__evalId === item.evalId ||
+          v.range.startLineNumber >= item.endLineNumber
+        );
+      });
       codeLensProvider.update(lastCodeLenses);
 
       rowToDecoration[item.startLineNumber] = newDecoration;
