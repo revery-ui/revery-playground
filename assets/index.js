@@ -204,7 +204,6 @@ const startEditor = onComplete => {
       editor.deltaDecorations(lastDecorations, []);
       lastDecorations = [];
       rowToDecoration = {};
-      lastCodeLenses = [];
       codeLensProvider.update(lastCodeLenses);
     };
 
@@ -234,10 +233,16 @@ const startEditor = onComplete => {
         id: lastCodeLenses.length.toString(),
         command: {
           title: item.content
-        }
+        },
+		__evalId: item.evalId,
       };
 
+	  let latestLine = item.endLineNumber;
+
       lastCodeLenses.push(newCodeLens);
+	  lastCodeLenses = lastCodeLenses.filter((v) => {
+		return v.__evalId === item.evalId || v.range.startLineNumber >= item.endLineNumber;
+	  });
       codeLensProvider.update(lastCodeLenses);
 
       rowToDecoration[item.startLineNumber] = newDecoration;
