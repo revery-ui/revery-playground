@@ -91,7 +91,7 @@ const startEditor = onComplete => {
       language: "rust",
       theme: "vs-dark",
       readOnly: false,
-      fontFamily: "'Fira Code', monospace",
+      fontFamily: null,
       fontLigatures: false
     });
     let iframe = document.getElementById("example_frame");
@@ -308,6 +308,7 @@ const startEditor = onComplete => {
       .getElementById("toggle-ligature")
       .addEventListener("click", function toggleLigature(chk) {
         editor.updateOptions({
+          fontFamily: chk.target.checked ? "'Fira Code', monospace" : null,
           fontLigatures: chk.target.checked
         });
       });
