@@ -44,7 +44,7 @@ let createCodeLensProvider = () => {
   let update = items => {
     _latestCodeLenses = items
       .map(item => {
-        let title = item.command.title.split("\n")[0];
+        let title = item.command.title;
         return {
           ...item,
           command: {
@@ -231,8 +231,10 @@ const startEditor = onComplete => {
       let latestLine = item.endLineNumber;
 
       let content = item.content.trim();
+	  content = content.split("\n")[0];
+	  content = content.split("|")[0];
 
-      if (content) {
+      if (content && content.indexOf("- : unit = ()") < 0) {
         let newCodeLens = {
           range: new monaco.Range(
             item.startLineNumber,
