@@ -169,11 +169,14 @@ let setRenderFunction = fn => {
   dirty := true;
 };
 
-let start = exec => {
+let start = (exec, complete) => {
   let mouseCursor = Revery_UI.Mouse.Cursor.make();
 
   Worker.set_onmessage((updates: Protocol.ToWorker.t) =>
     switch (updates) {
+    | RequestCompletions(id, str) =>
+      let completions = complete(str);
+      sendMessage(Protocol.ToRenderer.Completions(id, completions));
     | SourceCodeUpdated(v) =>
       let evalId = Repl.Evaluate.getNextEvalId();
       sendMessage(Protocol.ToRenderer.Compiling(evalId));

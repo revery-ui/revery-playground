@@ -10,7 +10,7 @@ let start = () => {
   Repl.SyntaxControl.re();
   JsooTop.initialize();
 
-  let render = Backend.start(execute);
+  let render = Backend.start(execute, complete);
   log("Initialized");
 
   let f = _ => {

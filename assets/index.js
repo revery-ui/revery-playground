@@ -67,6 +67,49 @@ let createCodeLensProvider = () => {
   return provider;
 };
 
+let createCompletionProvider = requestCompletions => {
+  let id = 0;
+  let pendingCallbacks = {};
+
+  const provideCompletionItems = (model, position) => {
+    var textUntilPosition = model.getValueInRange({
+      startLineNumber: 1,
+      endLineNumber: position.lineNumber,
+      startColumn: 1,
+      endColumn: position.column
+    });
+
+    let newId = id++;
+    requestCompletions(newId, textUntilPosition);
+
+    return new Promise(resolve => {
+      pendingCallbacks[newId] = resolve;
+    });
+  };
+
+  let resolver = (id, completions) => {
+    if (pendingCallbacks[id]) {
+      let resolve = pendingCallbacks[id];
+      let result = completions.map(result => ({
+        label: result,
+        documentation: "",
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: result
+      }));
+
+      resolve({ suggestions: result });
+      pendingCallbacks[id] = null;
+    }
+  };
+
+  let completionProvider = {
+    triggerCharacters: ["."],
+    provideCompletionItems
+  };
+
+  return [completionProvider, resolver];
+};
+
 let codeLensProvider = createCodeLensProvider();
 monaco.languages.registerCodeLensProvider("rust", codeLensProvider);
 
@@ -177,7 +220,7 @@ const startEditor = onComplete => {
           allLines
         );
       },
-      1000,
+      2500,
       false
     );
 
@@ -263,6 +306,13 @@ const startEditor = onComplete => {
       lastDecorations.push(newDecoration);
     };
 
+    let requestCompletions = (id, v) =>
+      sendMessage("editor.requestCompletions", { id: id, text: v });
+    let [completionProvider, completionResolver] = createCompletionProvider(
+      requestCompletions
+    );
+    monaco.languages.registerCompletionItemProvider("rust", completionProvider);
+
     window.addEventListener(
       "message",
       evt => {
@@ -279,6 +329,10 @@ const startEditor = onComplete => {
           clearCompileStatus();
         } else if (data && data.type == "compileStatus.append") {
           appendCompileStatus(data.payload);
+        } else if (data && data.type == "editor.completions") {
+          let id = data.payload.id;
+          let completions = data.payload.completions;
+          completionResolver(id, completions);
         }
       },
       false

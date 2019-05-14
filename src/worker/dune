@@ -6,7 +6,7 @@
  (link_flags (:standard -linkall))
  (preprocess (pps js_of_ocaml-ppx))
  (libraries 
-  bigarray js_of_ocaml js_of_ocaml-compiler js_of_ocaml-toplevel compiler-libs Revery playground.lib reason sketch.core sketch.repl)
+  bigarray js_of_ocaml js_of_ocaml-compiler js_of_ocaml-toplevel compiler-libs Revery playground.lib reason sketch.core sketch.repl sketch.utop)
  )
 
     (rule

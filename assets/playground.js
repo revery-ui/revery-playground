@@ -9,7 +9,7 @@ let clearErrors = () => {
 
 let totalLines = 1;
 
-let onCompiling = (evalId) => {
+let onCompiling = evalId => {
   clearErrors();
   var element = document.getElementById("loading-container");
   element.classList.add("loading");
@@ -87,13 +87,24 @@ let onSyntaxChanged = newCode => {
   });
 };
 
-let [updateCode, setSyntax] = startRenderer(
+let onCompletions = (id, completions) => {
+  window.parent.postMessage({
+    type: "editor.completions",
+    payload: {
+      id,
+      completions
+    }
+  });
+};
+
+let [updateCode, setSyntax, requestCompletions] = startRenderer(
   onCompiling,
   onRender,
   onOutput,
   onSyntaxChanged,
   onError,
-  onCompilationResult
+  onCompilationResult,
+  onCompletions
 );
 
 window.addEventListener("message", msg => {
@@ -106,5 +117,8 @@ window.addEventListener("message", msg => {
     updateCode(code);
   } else if (msg.data.type === "editor.setSyntax") {
     setSyntax(msg.data.payload);
+  } else if (msg.data.type === "editor.requestCompletions") {
+    let { id, text } = msg.data.payload;
+    requestCompletions(id, text);
   }
 });

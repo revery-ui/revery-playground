@@ -1,14 +1,14 @@
 {
-  "checksum": "e2bbcc629c5a373baf1c31f3ab6cdb8f",
+  "checksum": "aebdddb279f4d8118e85e26c355fca5b",
   "root": "revery-playground@link-dev:./esy.json",
   "node": {
-    "sketch@github:bryphe/sketch-v2#5c6207a@d41d8cd9": {
-      "id": "sketch@github:bryphe/sketch-v2#5c6207a@d41d8cd9",
+    "sketch@github:bryphe/sketch-v2#5b1608d@d41d8cd9": {
+      "id": "sketch@github:bryphe/sketch-v2#5b1608d@d41d8cd9",
       "name": "sketch",
-      "version": "github:bryphe/sketch-v2#5c6207a",
+      "version": "github:bryphe/sketch-v2#5b1608d",
       "source": {
         "type": "install",
-        "source": [ "github:bryphe/sketch-v2#5c6207a" ]
+        "source": [ "github:bryphe/sketch-v2#5b1608d" ]
       },
       "overrides": [],
       "dependencies": [
@@ -35,7 +35,7 @@
       "source": { "type": "link-dev", "path": ".", "manifest": "esy.json" },
       "overrides": [],
       "dependencies": [
-        "sketch@github:bryphe/sketch-v2#5c6207a@d41d8cd9",
+        "sketch@github:bryphe/sketch-v2#5b1608d@d41d8cd9",
         "revery@0.20.0@d41d8cd9",
         "ocaml@github:thangngoc89/ocaml#93cc160@d41d8cd9",
         "@opam/js_of_ocaml-toplevel@github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f@d41d8cd9",

@@ -109,6 +109,7 @@ let start =
       onSyntaxChanged,
       onError,
       onCompilationResult,
+      onCompletions,
     ) => {
   let isWorkerReady = ref(false);
   let latestSourceCode: ref(option(Js.t(Js.js_string))) = ref(None);
@@ -135,6 +136,11 @@ let start =
       worker##postMessage(Protocol.ToWorker.SetSyntax(Protocol.Syntax.RE))
     | _ => prerr_endline("setSyntax: Unknown syntax - " ++ str)
     };
+  };
+
+  let requestCompletions = (id: int, v: Js.t(Js.js_string)) => {
+    worker##postMessage(Protocol.ToWorker.RequestCompletions(id, v));
+    ();
   };
 
   let sendMeasurements = () => {
@@ -198,6 +204,10 @@ let start =
           Js.Unsafe.fun_call(onCompilationResult, [|Obj.magic(js)|]);
         };
       }
+    | Completions(id, v) =>
+      let _ =
+        Js.Unsafe.fun_call(onCompletions, [|Obj.magic(id), Obj.magic(v)|]);
+      ();
     | CompilationResult(v) =>
       switch (v) {
       | Core.Evaluate.EvalSuccess(evalId) =>
@@ -213,11 +223,8 @@ let start =
       ();
     | Ready =>
       isWorkerReady := true;
-      print_endline("Ready!");
       let _ = Js.Unsafe.fun_call(onReady, [||]);
-      print_endline("Ready called!");
       sendLatestSource();
-      print_endline("Send latest source called!");
     | SyntaxChanged(newCode) =>
       let _ = Js.Unsafe.fun_call(onSyntaxChanged, [|Obj.magic(newCode)|]);
       ();
@@ -363,7 +370,7 @@ let start =
 
   App.start(init);
 
-  Js.array([|ret, setSyntax|]);
+  Js.array([|ret, setSyntax, Obj.magic(requestCompletions)|]);
 };
 
 let () = Js.export_all([%js {val startRenderer = start}]);
