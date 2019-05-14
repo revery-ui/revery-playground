@@ -135,7 +135,8 @@ const startEditor = onComplete => {
       theme: "vs-dark",
       readOnly: false,
       fontFamily: null,
-      fontLigatures: false
+      fontLigatures: false,
+      codeLens: false
     });
     let iframe = document.getElementById("example_frame");
 
@@ -366,6 +367,14 @@ const startEditor = onComplete => {
           fontLigatures: chk.target.checked
         });
       });
+
+    document
+      .getElementById("toggle-codelens")
+      .addEventListener("click", chk => {
+        const isChecked = chk.target.checked;
+        editor.updateOptions({ codeLens: isChecked });
+      });
+
     onComplete();
   };
 
