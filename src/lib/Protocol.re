@@ -31,7 +31,7 @@ module ToWorker = {
 module ToRenderer = {
   type t =
     | Ready
-    | Compiling
+    | Compiling(Core.Evaluate.evalId)
     | Output(Js.t(Js.Unsafe.any))
     | PhraseResult(Core.Evaluate.result)
     | CompilationResult(Core.Evaluate.evalResult)

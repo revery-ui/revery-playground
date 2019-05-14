@@ -35,7 +35,7 @@
     "@opam/js_of_ocaml-ppx": "github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f",
     "@opam/js_of_ocaml-toplevel": "github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f",
     "@brisk/brisk-reconciler": "github:briskml/brisk-reconciler#dd933fc",
-    "sketch": "github:bryphe/sketch-v2#343a471",
+    "sketch": "github:bryphe/sketch-v2#5c6207a",
     "@opam/ptime": "github:thangngoc89/ptime:opam#48e27db",
     "@opam/utop": "github:ocaml-community/utop:utop.opam#5637c67",
     "ocaml": "github:thangngoc89/ocaml#93cc160"
