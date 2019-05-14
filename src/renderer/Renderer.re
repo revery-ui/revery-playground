@@ -6,8 +6,8 @@ open Js_of_ocaml;
 open PlaygroundLib;
 open PlaygroundLib.Types;
 
-let log = msg => print_endline("[Compiler] " ++ msg);
-let error = msg => prerr_endline("[Compiler] " ++ msg);
+let log = (msg) => print_endline ("[Compiler] " ++ msg);
+let error = (msg) => prerr_endline ("[Compiler] " ++ msg);
 
 let rootNode: ref(option(viewNode)) = ref(None);
 
@@ -98,7 +98,10 @@ let visitUpdate = u =>
 
 let update = (v: list(updates)) => {
   /* Types.showAll(v); */
-  List.iter(visitUpdate, v);
+  List.iter(
+    visitUpdate,
+    v,
+  );
 };
 
 let start =
@@ -183,12 +186,16 @@ let start =
           open Core.Loc;
           let startLine = v.locStart.line;
           let endLine = v.locEnd.line;
+		  let startCol = v.locStart.col;
+		  let endCol = v.locEnd.col;
 
           let js =
             PhraseCompilationResult.toJs(
               evalId,
               startLine,
+														startCol,
               endLine,
+														endCol,
               blockContent,
             );
           Js.Unsafe.fun_call(onCompilationResult, [|Obj.magic(js)|]);
@@ -200,7 +207,8 @@ let start =
         log("Compilation success: " ++ string_of_int(evalId))
       | Core.Evaluate.EvalError(evalId) =>
         error("Compilation error: " ++ string_of_int(evalId))
-      | Core.Evaluate.EvalInterupted(_) => error("Compilation interrupted")
+      | Core.Evaluate.EvalInterupted(_) =>
+        error("Compilation interrupted")
       }
     | Compiling(evalId) =>
       isWorkerReady := false;

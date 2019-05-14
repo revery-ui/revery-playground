@@ -177,7 +177,7 @@ const startEditor = onComplete => {
           allLines
         );
       },
-      250,
+      1000,
       false
     );
 
@@ -228,18 +228,22 @@ const startEditor = onComplete => {
         }
       ]);
 
+	  let latestLine = item.endLineNumber;
+
+	  let content = item.content.trim();
+
+	  if (content) {
       let newCodeLens = {
         range: new monaco.Range(item.startLineNumber, 1, item.endLineNumber, 1),
         id: lastCodeLenses.length.toString(),
         command: {
-          title: item.content
+          title: content
         },
 		__evalId: item.evalId,
       };
 
-	  let latestLine = item.endLineNumber;
-
       lastCodeLenses.push(newCodeLens);
+	  }
 	  lastCodeLenses = lastCodeLenses.filter((v) => {
 		return v.__evalId === item.evalId || v.range.startLineNumber >= item.endLineNumber;
 	  });
