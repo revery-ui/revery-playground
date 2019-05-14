@@ -21,10 +21,19 @@ module Stdout = {
   let stop = () => "";
 };
 
+let previous: ref(Repl.Evaluate.t) = ref(Repl.Evaluate.empty);
+
 let execute = (~send, ~complete, code) => {
   let code = code ++ postfix();
 
-  Repl.Evaluate.eval(~send, ~complete, ~readStdout=(module Stdout), code);
+  previous :=
+    Repl.Evaluate.eval(
+      ~previous=previous^,
+      ~send,
+      ~complete,
+      ~readStdout=(module Stdout),
+      code,
+    );
 
   %js
   {val result = ""; val stderr = ""; val stdout = ""};
