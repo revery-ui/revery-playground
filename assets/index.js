@@ -36,6 +36,40 @@ const setCachedCode = (exampleId, syntax, code) => {
   );
 };
 
+let createCodeLensProvider = () => {
+  let emitter = new monaco.Emitter();
+
+  let _latestCodeLenses = [];
+
+  let update = items => {
+    _latestCodeLenses = items
+      .map(item => {
+        let title = item.command.title;
+        return {
+          ...item,
+          command: {
+            title: title
+          }
+        };
+      })
+      .filter(item => !!item.command.title);
+
+    emitter.fire(_latestCodeLenses);
+  };
+
+  let provider = {
+    provideCodeLenses: (model, token) => _latestCodeLenses,
+    resolveCodeLens: (model, codeLens, token) => codeLens,
+    onDidChange: emitter.event,
+    update: update
+  };
+
+  return provider;
+};
+
+let codeLensProvider = createCodeLensProvider();
+monaco.languages.registerCodeLensProvider("rust", codeLensProvider);
+
 const startEditor = onComplete => {
   let run = () => {
     // Create a setter that will be overridden once an editor is available
@@ -143,7 +177,7 @@ const startEditor = onComplete => {
           allLines
         );
       },
-      250,
+      1000,
       false
     );
 
@@ -164,11 +198,13 @@ const startEditor = onComplete => {
 
     let lastDecorations = [];
     let rowToDecoration = {};
+    let lastCodeLenses = [];
 
     let clearCompileStatus = () => {
       editor.deltaDecorations(lastDecorations, []);
       lastDecorations = [];
       rowToDecoration = {};
+      codeLensProvider.update(lastCodeLenses);
     };
 
     let appendCompileStatus = item => {
@@ -191,6 +227,37 @@ const startEditor = onComplete => {
           }
         }
       ]);
+
+      let latestLine = item.endLineNumber;
+
+      let content = item.content.trim();
+      content = content.split("\n")[0];
+      content = content.split("|")[0];
+
+      if (content && content.indexOf("- : unit = ()") < 0) {
+        let newCodeLens = {
+          range: new monaco.Range(
+            item.startLineNumber,
+            1,
+            item.endLineNumber,
+            1
+          ),
+          id: lastCodeLenses.length.toString(),
+          command: {
+            title: content
+          },
+          __evalId: item.evalId
+        };
+
+        lastCodeLenses.push(newCodeLens);
+      }
+      lastCodeLenses = lastCodeLenses.filter(v => {
+        return (
+          v.__evalId === item.evalId ||
+          v.range.startLineNumber >= item.endLineNumber
+        );
+      });
+      codeLensProvider.update(lastCodeLenses);
 
       rowToDecoration[item.startLineNumber] = newDecoration;
       lastDecorations.push(newDecoration);

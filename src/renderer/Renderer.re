@@ -183,12 +183,16 @@ let start =
           open Core.Loc;
           let startLine = v.locStart.line;
           let endLine = v.locEnd.line;
+          let startCol = v.locStart.col;
+          let endCol = v.locEnd.col;
 
           let js =
             PhraseCompilationResult.toJs(
               evalId,
               startLine,
+              startCol,
               endLine,
+              endCol,
               blockContent,
             );
           Js.Unsafe.fun_call(onCompilationResult, [|Obj.magic(js)|]);

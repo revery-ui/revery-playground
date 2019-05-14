@@ -14,7 +14,15 @@ let toCompiledJs = (evalId, startLine, endLine) => {
   };
 };
 
-let toJs = (evalId, startLine, endLine, block: Core.Evaluate.blockContent) => {
+let toJs =
+    (
+      evalId,
+      startLine,
+      startCol,
+      endLine,
+      endCol,
+      block: Core.Evaluate.blockContent,
+    ) => {
   let s =
     switch (block) {
     | BlockStart => compiling
@@ -22,11 +30,22 @@ let toJs = (evalId, startLine, endLine, block: Core.Evaluate.blockContent) => {
     | BlockError(_) => error
     };
 
+  let content =
+    switch (block) {
+    | BlockSuccess({msg, _}) => msg
+    | _ => ""
+    };
+
+  let contentJs = Js.string(content ++ "\n");
+
   %js
   {
     val evalId = evalId;
     val startLineNumber = startLine + 1;
     val endLineNumber = endLine + 1;
-    val result = s
+    val startColumn = startCol;
+    val endColumn = endCol;
+    val result = s;
+    val content = contentJs
   };
 };
