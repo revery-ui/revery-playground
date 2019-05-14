@@ -67,15 +67,6 @@ let createCodeLensProvider = () => {
   return provider;
 };
 
-var editor = monaco.editor.create(document.getElementById("code"), {
-  value: window.__revery_latest_sources,
-  language: "rust",
-  theme: "vs-dark",
-  readOnly: false,
-  fontFamily: "'Fira Code', monospace",
-  fontLigatures: false
-});
-
 let codeLensProvider = createCodeLensProvider();
 monaco.languages.registerCodeLensProvider("rust", codeLensProvider);
 
