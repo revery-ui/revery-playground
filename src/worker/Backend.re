@@ -172,6 +172,8 @@ let setRenderFunction = fn => {
 let start = (exec, complete) => {
   let mouseCursor = Revery_UI.Mouse.Cursor.make();
 
+  sendMessage(Protocol.ToRenderer.Initialized);
+
   Worker.set_onmessage((updates: Protocol.ToWorker.t) =>
     switch (updates) {
     | RequestCompletions(id, str) =>
@@ -222,7 +224,6 @@ let start = (exec, complete) => {
     }
   );
 
-  log("Initialized");
   sendMessage(Protocol.ToRenderer.Ready);
 
   () => {

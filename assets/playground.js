@@ -17,6 +17,10 @@ let onCompiling = evalId => {
   window.parent.postMessage({ type: "compileStatus.clear" });
 };
 
+let onInitialized = () => {
+  window.parent.postMessage({ type: "loaded" });
+};
+
 let onRender = () => {
   document.getElementById("loading-container").classList.remove("loading");
 };
@@ -98,6 +102,7 @@ let onCompletions = (id, completions) => {
 };
 
 let [updateCode, setSyntax, requestCompletions] = startRenderer(
+  onInitialized,
   onCompiling,
   onRender,
   onOutput,

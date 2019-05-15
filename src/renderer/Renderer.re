@@ -103,6 +103,7 @@ let update = (v: list(updates)) => {
 
 let start =
     (
+      onInitialized,
       onCompiling,
       onReady,
       onOutput,
@@ -220,6 +221,9 @@ let start =
       isWorkerReady := false;
       log("Compiling: " ++ string_of_int(evalId));
       let _ = Js.Unsafe.fun_call(onCompiling, [|Obj.magic(evalId)|]);
+      ();
+    | Initialized =>
+      let _ = Js.Unsafe.fun_call(onInitialized, [||]);
       ();
     | Ready =>
       isWorkerReady := true;
