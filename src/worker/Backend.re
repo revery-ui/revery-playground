@@ -113,7 +113,7 @@ let getNodeById = id => {
   };
 };
 
-let proxyNodeFactory: Revery.UI.Internal.PrimitiveNodeFactory.nodeFactory = {
+let proxyNodeFactory: Revery.UI.PrimitiveNodeFactory.nodeFactory = {
   createViewNode: () => {
     let ret = (new proxyViewNode)();
     registerNode(ret);
@@ -131,7 +131,7 @@ let proxyNodeFactory: Revery.UI.Internal.PrimitiveNodeFactory.nodeFactory = {
   },
 };
 
-Revery.UI.Internal.PrimitiveNodeFactory.set(proxyNodeFactory);
+Revery.UI.PrimitiveNodeFactory.set(proxyNodeFactory);
 
 let sendMessage = msg => {
   Worker.post_message(msg);

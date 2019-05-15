@@ -1,5 +1,5 @@
 {
-  "checksum": "aebdddb279f4d8118e85e26c355fca5b",
+  "checksum": "526b9303555076e1878ef02bea5582b9",
   "root": "revery-playground@link-dev:./esy.json",
   "node": {
     "sketch@github:bryphe/sketch-v2#5b1608d@d41d8cd9": {
@@ -36,7 +36,7 @@
       "overrides": [],
       "dependencies": [
         "sketch@github:bryphe/sketch-v2#5b1608d@d41d8cd9",
-        "revery@0.20.0@d41d8cd9",
+        "revery@0.21.0@d41d8cd9",
         "ocaml@github:thangngoc89/ocaml#93cc160@d41d8cd9",
         "@opam/js_of_ocaml-toplevel@github:revery-ui/js_of_ocaml:js_of_ocaml-toplevel.opam#e09793f@d41d8cd9",
         "@opam/js_of_ocaml-ppx@github:revery-ui/js_of_ocaml:js_of_ocaml-ppx.opam#e09793f@d41d8cd9",
@@ -50,14 +50,14 @@
         "@opam/merlin@opam:3.2.2@829ee6dd", "@opam/dune@opam:1.7.3@72aad784"
       ]
     },
-    "revery@0.20.0@d41d8cd9": {
-      "id": "revery@0.20.0@d41d8cd9",
+    "revery@0.21.0@d41d8cd9": {
+      "id": "revery@0.21.0@d41d8cd9",
       "name": "revery",
-      "version": "0.20.0",
+      "version": "0.21.0",
       "source": {
         "type": "install",
         "source": [
-          "archive:https://registry.npmjs.org/revery/-/revery-0.20.0.tgz#sha1:c6984ce9b73f7a016e0a390f22347b56f25849e5"
+          "archive:https://registry.npmjs.org/revery/-/revery-0.21.0.tgz#sha1:75dd2e7463b0a83f988fbe9c937d8e490549ca7c"
         ]
       },
       "overrides": [],

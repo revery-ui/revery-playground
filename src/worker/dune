@@ -12,7 +12,7 @@
     (rule
      (targets export.txt)
      (deps Revery_worker.bc)
-     (action (run jsoo_listunits -o %{targets} stdlib bigarray brisk-reconciler reglm Revery Revery.Core Revery.Math Revery.UI Revery.UI_Components playground.lib)))
+     (action (run jsoo_listunits -o %{targets} stdlib bigarray brisk-reconciler console.lib reglm Revery Revery.Core Revery.Math Revery.UI Revery.UI_Hooks Revery.UI_Components Revery.UI_Primitives playground.lib)))
 
     (rule
      (targets Revery_worker.js)
