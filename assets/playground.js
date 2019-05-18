@@ -2,23 +2,27 @@ let clearErrors = () => {
   errors = [];
   let errorContainer = document.getElementById("error-container");
   errorContainer.classList.remove("errors");
-  window.parent.postMessage({
+  sendParentMessage({
     type: "errors.clear"
   });
 };
 
 let totalLines = 1;
 
+let sendParentMessage = (v) => {
+	window.parent.postMessage(v, "*");
+};
+
 let onCompiling = evalId => {
   clearErrors();
   var element = document.getElementById("loading-container");
   element.classList.add("loading");
 
-  window.parent.postMessage({ type: "compileStatus.clear" });
+  sendParentMessage({ type: "compileStatus.clear" });
 };
 
 let onInitialized = () => {
-  window.parent.postMessage({ type: "loaded" });
+  sendParentMessage({ type: "loaded" });
 };
 
 let onRender = () => {
@@ -56,7 +60,7 @@ let updateErrorUI = errors => {
 let onError = err => {
   errors.push(err);
   updateErrorUI(errors);
-  window.parent.postMessage({
+  sendParentMessage({
     type: "errors.append",
     payload: [err]
   });
@@ -75,7 +79,7 @@ let updateProgress = line => {
 };
 
 let onCompilationResult = r => {
-  window.parent.postMessage({ type: "compileStatus.append", payload: r });
+  sendParentMessage({ type: "compileStatus.append", payload: r });
 
   if (r.result == "compiled") {
     updateProgress(r.endLineNumber);
@@ -85,14 +89,14 @@ let onCompilationResult = r => {
 };
 
 let onSyntaxChanged = newCode => {
-  window.parent.postMessage({
+  sendParentMessage({
     type: "syntax.change",
     code: newCode
   });
 };
 
 let onCompletions = (id, completions) => {
-  window.parent.postMessage({
+  sendParentMessage({
     type: "editor.completions",
     payload: {
       id,
