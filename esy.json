@@ -22,7 +22,7 @@
     "@opam/js_of_ocaml-lwt": "*",
     "@opam/js_of_ocaml-ppx": "*",
     "@opam/js_of_ocaml-toplevel": "*",
-    "revery": "0.21.0",
+    "revery": "0.22.0",
     "sketch": "*"
   },
   "resolutions": {
